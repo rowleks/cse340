@@ -16,8 +16,8 @@ app.get("/", (_, res) => {
 });
 
 // env variales
-const port = process.env.PORT;
-const host = process.env.HOST;
+const port = process.env.PORT || 8000;
+const host = process.env.HOST || "render";
 
 // Connection onfirmation
 app.listen(port, () => {

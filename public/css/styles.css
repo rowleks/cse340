@@ -1,6 +1,198 @@
-/******* Change Box Model ***************/
+:root {
+  --primary: #005ab3;
+  --secondary: #bfdfff;
+  --accent: #003f7d;
+}
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 960px;
+  padding: 1.5rem 1rem;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+/******* General Styling *******/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+#top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#top-header #tools a:hover {
+  color: var(--primary);
+}
+
+.site-name {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+nav {
+  background-color: #000;
+  padding-block: 0.75rem;
+  margin-block: 1.25rem;
+  color: #fff;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+li {
+  list-style: none;
+}
+
+.hero {
+  position: relative;
+}
+
+.featured-vehicle {
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  left: 0%;
+  top: 5%;
+  color: var(--primary);
+  padding: 0.5rem;
+}
+
+.featured-vehicle button {
+  padding: 0.5rem 0.75rem;
+  color: #fff;
+  background-color: var(--primary);
+  border: none;
+  margin-top: 0.75rem;
+  cursor: pointer;
+}
+
+.reviews-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-block: 2rem;
+}
+
+.reviews,
+.upgrades {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.reviews ul {
+  display: grid;
+  height: 100%;
+  gap: 0.5rem;
+}
+
+.reviews ul li {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.upgrades-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1.5rem;
+  column-gap: 0.5rem;
+  grid-auto-rows: auto;
+}
+
+.upgrade-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.upgrade-card a {
+  text-align: center;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.upgrade-card figure {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary);
+  min-height: 150px;
+}
+
+@media (min-width: 600px) {
+  body {
+    background: var(--secondary) url("/images/site/checkerboard.jpg") repeat
+      fixed;
+    background-size: contain;
+    background-blend-mode: exclusion;
+    padding-block: 2rem;
+  }
+
+  .container {
+    border: 5px solid var(--primary);
+    border-radius: 10px;
+  }
+
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .featured-vehicle {
+    left: 15%;
+  }
+
+  .reviews-section {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .upgrades {
+    flex: 1;
+    order: 1;
+  }
+
+  .reviews {
+    order: 2;
+    flex: 1;
+  }
 }
