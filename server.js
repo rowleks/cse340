@@ -3,6 +3,7 @@ const expressLayouts = require("express-ejs-layouts");
 require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
+const { buildHome } = require("./controllers/baseController");
 
 // View Engine and Templates (Middlewares)
 app.set("view engine", "ejs");
@@ -11,9 +12,7 @@ app.use(expressLayouts);
 app.use(static);
 
 // Routes
-app.get("/", (_, res) => {
-  res.render("index", { title: "Home" });
-});
+app.get("/", buildHome);
 
 // env variales
 const port = process.env.PORT || 8000;
