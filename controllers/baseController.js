@@ -1,10 +1,11 @@
 const utils = require("../utilities/");
+const invModel = require("../models/inventory-model");
 
-const baseController = {
-  buildHome: async function (_, res) {
-    const nav = await utils.getNav();
-    res.render("index", { title: "Home", nav });
-  },
-};
+//Render the home view
+async function renderHome(_, res) {
+  const data = await invModel.getClassifications();
+  const nav = utils.buildNav(data);
+  res.render("index", { title: "Home", nav });
+}
 
-module.exports = baseController;
+module.exports = { renderHome };
