@@ -1,11 +1,11 @@
 ------ DATABASE CREATION QUERIES -----
 
 -- Create type to mimic ENUM
-CREATE TYPE IF NOT EXISTS public.account_type AS ENUM
+CREATE TYPE public.account_type AS ENUM
     ('Client', 'Employee', 'Admin');
 
-ALTER TYPE IF EXISTS public.account_type
-    OWNER TO cse340rm;
+ALTER TYPE public.account_type
+    OWNER TO cse340recreate;
 
 -- Table structure for `classification` table  
 CREATE TABLE IF NOT EXISTS public.classification (
