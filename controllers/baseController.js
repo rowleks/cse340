@@ -14,10 +14,17 @@ async function renderError(err, req, res, _) {
   const nav = utils.buildNav(data);
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
 
+  let message;
+  if (err.status == 404) {
+    message = err.message;
+  } else {
+    message = "Something went wrong. Try a different route.";
+  }
+
   res.render("errors/error", {
     title: err.status || "Server Error",
     nav,
-    message: err.message,
+    message,
   });
 }
 

@@ -5,6 +5,7 @@ const app = express();
 const static = require("./routes/static");
 const { renderHome, renderError } = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
+const utils = require("./utilities");
 
 // View Engine and Templates (Middlewares)
 app.set("view engine", "ejs");
@@ -14,7 +15,7 @@ app.use(static);
 app.use("/inv", inventoryRoute);
 
 // Routes
-app.get("/", renderHome);
+app.get("/", utils.handleErrors(renderHome));
 
 // 404 Route
 app.use(async (_, __, next) => {

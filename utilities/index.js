@@ -63,4 +63,8 @@ function buildClassGrid(data) {
   return grid;
 }
 
-module.exports = { buildNav, buildClassGrid };
+const handleErrors = (fn) => (req, res, next) => {
+  return Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+module.exports = { buildNav, buildClassGrid, handleErrors };

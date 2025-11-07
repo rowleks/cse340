@@ -157,6 +157,11 @@ li {
   min-height: 150px;
 }
 
+footer {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+}
+
 @media (min-width: 600px) {
   body {
     background: var(--secondary) url("/images/site/checkerboard.jpg") repeat
@@ -289,8 +294,7 @@ li {
   outline-offset: 2px;
 }
 
-@media (min-width: 900px) {
-  .buildcard figure {
-    height: 160px;
-  }
+.error-msg {
+  display: grid;
+  gap: 1rem;
 }
