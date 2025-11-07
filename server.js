@@ -3,7 +3,7 @@ const expressLayouts = require("express-ejs-layouts");
 require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
-const { renderHome } = require("./controllers/baseController");
+const { renderHome, renderError } = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 
 // View Engine and Templates (Middlewares)
@@ -15,6 +15,14 @@ app.use("/inv", inventoryRoute);
 
 // Routes
 app.get("/", renderHome);
+
+// 404 Route
+app.use(async (_, __, next) => {
+  next({ status: 404, message: "Sorry, we appear to have lost that page." });
+});
+
+// Express Error Handler
+app.use(renderError);
 
 // env variales
 const port = process.env.PORT || 8000;
