@@ -27,32 +27,36 @@ function buildClassGrid(data) {
     const vehicleListItems = data
       .map(
         (vehicle) => `
-      <li>
-        <a href="../../inv/detail/${vehicle.inv_id}" title="View ${
+      <div class="buildcard">
+        <figure>
+          <a href="../../inv/detail/${vehicle.inv_id}" title="View ${
           vehicle.inv_make
         } ${vehicle.inv_model} details">
-          <img src="${vehicle.inv_thumbnail}" alt="Image of ${
+            <img src="${vehicle.inv_thumbnail}" alt="Image of ${
           vehicle.inv_make
         } ${vehicle.inv_model} on CSE Motors" />
-        </a>
-        <div class="namePrice">
-          <hr />
-          <h2>
+          </a>
+        </figure>
+        <div class="card-body">
+          <div class="card-title">
             <a href="../../inv/detail/${vehicle.inv_id}" title="View ${
           vehicle.inv_make
-        } ${vehicle.inv_model} details">
-              ${vehicle.inv_make} ${vehicle.inv_model}
-            </a>
-          </h2>
-          <span>$${new Intl.NumberFormat("en-US").format(
+        } ${vehicle.inv_model} details">${vehicle.inv_make} ${
+          vehicle.inv_model
+        }</a>
+          </div>
+          <div class="card-meta">$${new Intl.NumberFormat("en-US").format(
             vehicle.inv_price
-          )}</span>
+          )}</div>
         </div>
-      </li>
+        <div class="card-actions">
+          <a href="../../inv/detail/${vehicle.inv_id}" class="primary">View</a>
+        </div>
+      </div>
     `
       )
       .join("");
-    grid = `<ul id="inv-display">${vehicleListItems}</ul>`;
+    grid = `<div class="buildclass-grid">${vehicleListItems}</div>`;
   } else {
     grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
