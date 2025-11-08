@@ -25,7 +25,7 @@ app.use(async (_, __, next) => {
 // Express Error Handler
 app.use(renderError);
 
-// env variales
+// env variables
 const port = process.env.PORT || 8000;
 const host = process.env.HOST || "render";
 

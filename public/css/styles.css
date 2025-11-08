@@ -72,8 +72,19 @@ nav ul {
   gap: 1rem;
 }
 
-nav a:hover {
-  color: var(--primary);
+nav a {
+  padding: 0.25rem 0.5rem;
+}
+
+nav a.active {
+  background-color: #fff;
+  color: #000;
+}
+
+nav a:not(.active):hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 3px;
 }
 
 li {

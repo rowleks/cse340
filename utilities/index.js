@@ -1,10 +1,16 @@
 //Build HTML of navlinks
-function buildNav(data) {
+function buildNav(data, path) {
   const navLinks = data
     .map(
       (link) => `
         <li>
-          <a href="/inv/type/${link.classification_id}" title="See our inventory of ${link.classification_name} vehicles">
+          <a href="/inv/type/${
+            link.classification_id
+          }" title="See our inventory of ${
+        link.classification_name
+      } vehicles" class=${
+        path && path.includes(link.classification_id) ? "active" : ""
+      }>
             ${link.classification_name}
           </a>
         </li>
@@ -13,7 +19,9 @@ function buildNav(data) {
     .join("");
 
   const list = `<ul>
-      <li><a href="/" title="Home page">Home</a></li>
+      <li><a href="/" title="Home page" class=${
+        path && path === "/" ? "active" : ""
+      }>Home</a></li>
       ${navLinks}
     </ul>`;
 

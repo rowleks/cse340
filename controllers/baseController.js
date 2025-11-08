@@ -2,9 +2,10 @@ const utils = require("../utilities/");
 const invModel = require("../models/inventory-model");
 
 //Render the home view
-async function renderHome(_, res) {
+async function renderHome(req, res) {
   const data = await invModel.getClassifications();
-  const nav = utils.buildNav(data);
+  const path = req.originalUrl;
+  const nav = utils.buildNav(data, path);
 
   res.render("index", { title: "Home", nav });
 }
