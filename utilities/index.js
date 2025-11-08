@@ -1,5 +1,19 @@
 //Build HTML of navlinks
-function buildNav(data, path) {
+function buildNav(data, path, classId) {
+  const getActiveNav = (link) => {
+    if (path && path.startsWith("/inv/detail")) {
+      if (classId && link === classId) {
+        return "active";
+      }
+    } else if (path && path.startsWith("/inv/type")) {
+      const pathId = parseInt(path.split("/").pop());
+      if (link === pathId) {
+        return "active";
+      }
+    } else {
+      return "";
+    }
+  };
   const navLinks = data
     .map(
       (link) => `
@@ -8,9 +22,7 @@ function buildNav(data, path) {
             link.classification_id
           }" title="See our inventory of ${
         link.classification_name
-      } vehicles" class=${
-        path && path.includes(link.classification_id) ? "active" : ""
-      }>
+      } vehicles" class=${getActiveNav(link.classification_id)}>
             ${link.classification_name}
           </a>
         </li>
@@ -37,7 +49,7 @@ function buildClassGrid(data) {
         (vehicle) => `
       <div class="buildcard">
         <figure>
-          <a href="../../inv/detail/${vehicle.inv_id}" title="View ${
+          <a href="/inv/detail/${vehicle.inv_id}" title="View ${
           vehicle.inv_make
         } ${vehicle.inv_model} details">
             <img src="${vehicle.inv_thumbnail}" alt="Image of ${
@@ -47,7 +59,7 @@ function buildClassGrid(data) {
         </figure>
         <div class="card-body">
           <div class="card-title">
-            <a href="../../inv/detail/${vehicle.inv_id}" title="View ${
+            <a href="/inv/detail/${vehicle.inv_id}" title="View ${
           vehicle.inv_make
         } ${vehicle.inv_model} details">${vehicle.inv_make} ${
           vehicle.inv_model
@@ -58,7 +70,7 @@ function buildClassGrid(data) {
           )}</div>
         </div>
         <div class="card-actions">
-          <a href="../../inv/detail/${vehicle.inv_id}" class="primary">View</a>
+          <a href="/inv/detail/${vehicle.inv_id}" class="primary">View</a>
         </div>
       </div>
     `
@@ -75,4 +87,42 @@ const handleErrors = (fn) => (req, res, next) => {
   return Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-module.exports = { buildNav, buildClassGrid, handleErrors };
+function buildSingleInv(data) {
+  let grid = "";
+  if (data.length > 0) {
+    const {
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_price,
+      inv_miles,
+      inv_color,
+    } = data[0];
+
+    const content = `
+        <figure> 
+          <img src="${inv_image}" alt="${inv_make} ${inv_model} on CSE Motors" />
+        </figure>
+        <div class="inv-body">
+          <div class="inv-title">
+            <h2>${inv_make} ${inv_model} Details</h2>
+          </div>
+          <div class="inv-meta">
+            <p><strong>Price: $${new Intl.NumberFormat("en-US").format(
+              inv_price
+            )}</strong></p>
+            <p><strong>Description:</strong> ${inv_description}</p>
+            <p><strong>Color:</strong> ${inv_color}</p>
+            <p><strong>Miles:</strong> ${new Intl.NumberFormat("en-US").format(
+              inv_miles
+            )}</p>
+          </div>
+        </div>`;
+    grid = `<div class="inv-detail-grid">${content}</div>`;
+  } else {
+    grid = "<p>Try Searching for other cars</p>";
+  }
+  return grid;
+}
+module.exports = { buildNav, buildClassGrid, handleErrors, buildSingleInv };
