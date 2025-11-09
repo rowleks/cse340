@@ -3,4 +3,10 @@
         <%= title %>
     </h1>
     <%- message %>
+        <% if (title==="404 Error" ) { %>
+            <img src="/images/site/404-error.webp" alt="404 error" width="600" height="auto">
+
+            <% } else {%>
+                <img src="/images/site/server-error.webp" alt="Server error">
+                <%}%>
 </div>

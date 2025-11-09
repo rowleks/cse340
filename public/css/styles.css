@@ -46,6 +46,7 @@ a {
 }
 
 img {
+  display: block;
   max-width: 100%;
 }
 
@@ -75,7 +76,6 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: 1rem;
 }
 
 nav a {
@@ -177,6 +177,14 @@ li {
 footer {
   margin-top: 1.25rem;
   font-size: 0.85rem;
+}
+
+footer a {
+  color: rgb(160, 0, 0);
+  margin-top: 0.5rem;
+  display: inline-block;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Buildclass grid (responsive cards) */

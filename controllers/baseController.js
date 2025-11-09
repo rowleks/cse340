@@ -17,13 +17,13 @@ async function renderError(err, req, res, _) {
 
   let message;
   if (err.status == 404) {
-    message = err.message;
+    message = "Page Not found";
   } else {
     message = "Something went wrong. Try a different route.";
   }
 
   res.render("errors/error", {
-    title: err.status || "Server Error",
+    title: err.status ? "404 Error" : "Server Error",
     nav,
     message,
   });
