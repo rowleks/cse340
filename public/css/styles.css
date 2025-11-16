@@ -3,6 +3,7 @@
   --secondary: #bfdfff;
   --accent: #003f7d;
   --neutral: #f6f6f6;
+  --neutral-200: #f9f9f9;
 }
 
 *,
@@ -96,6 +97,21 @@ nav a:not(.active):hover {
 li {
   list-style: none;
 }
+
+ul.info {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+
+ul.info li {
+  border-left: 5px solid var(--secondary);
+  padding: 1em 1.5em;
+  background: var(--neutral-200);
+  width: fit-content;
+}
+
+/******* Homepage Styling *******/
 
 .hero {
   position: relative;
@@ -300,6 +316,8 @@ footer a {
 .inv-meta p:nth-child(odd) {
   background-color: var(--neutral);
 }
+
+/******* Media Queries *******/
 
 @media (min-width: 600px) {
   body {

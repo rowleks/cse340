@@ -7,6 +7,8 @@ async function renderHome(req, res) {
   const path = req.originalUrl;
   const nav = utils.buildNav(data, path);
 
+  // req.flash("info", "This is a flash message.");
+
   res.render("index", { title: "Home", nav });
 }
 

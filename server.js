@@ -13,6 +13,8 @@ const utils = require("./utilities");
 const pool = require("./database");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
+const connectFlash = require("connect-flash")();
+const messages = require("express-messages");
 
 // View Engine and Templates (Middlewares)
 app.set("view engine", "ejs");
@@ -20,6 +22,7 @@ app.set("layout", "./layouts/layout");
 app.use(expressLayouts);
 app.use(static);
 
+// Sessions and flash messages
 app.use(
   session({
     store: new pgSession({
@@ -33,13 +36,20 @@ app.use(
   })
 );
 
+app.use(connectFlash);
+
+app.use((req, res, next) => {
+  res.locals.messages = messages(req, res);
+  next();
+});
+
 // Routes
 app.get("/", utils.handleErrors(renderHome));
 app.use("/inv", inventoryRoute);
 app.use("/error", errorRoute);
 
 // 404 Route
-app.use(async (_, __, next) => {
+app.use((_, __, next) => {
   next({ status: 404, message: "Sorry, we appear to have lost that page." });
 });
 
