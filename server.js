@@ -8,6 +8,7 @@ const { renderHome, renderError } = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 
 const errorRoute = require("./routes/errorRoute");
+const accountRoute = require("./routes/accountRoute");
 const utils = require("./utilities");
 
 const pool = require("./database");
@@ -22,7 +23,7 @@ app.set("layout", "./layouts/layout");
 app.use(expressLayouts);
 app.use(static);
 
-// Sessions and flash messages
+// Sessions and Flash messages
 app.use(
   session({
     store: new pgSession({
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 app.get("/", utils.handleErrors(renderHome));
 app.use("/inv", inventoryRoute);
 app.use("/error", errorRoute);
+app.use("/account", accountRoute);
 
 // 404 Route
 app.use((_, __, next) => {
@@ -60,7 +62,7 @@ app.use(renderError);
 const port = process.env.PORT || 8000;
 const host = process.env.HOST || "render";
 
-// Connection onfirmation
+// Connection confirmation
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`);
 });
