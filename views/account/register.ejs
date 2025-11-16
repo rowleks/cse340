@@ -5,7 +5,15 @@
     <div class="form-container">
         <form class="login-form">
             <div>
-                <label for="email">Email:</label>
+                <label for="firstname">First name:</label>
+                <input type="name" name="account_firstname" id="firstname">
+            </div>
+            <div>
+                <label for="lastname">last name:</label>
+                <input type="lastname" name="account_lastname" id="lastname">
+            </div>
+            <div>
+                <label for="email">Email address:</label>
                 <input type="email" name="account_email" id="email">
             </div>
             <div>
@@ -21,13 +29,12 @@
                     </span>
                 </label>
             </div>
-            <button type="submit">Login</button>
+
+            <button type="submit">Register</button>
         </form>
 
         <%# messages() %>
-        <div class="signup-link">
-            <span >No account? <a href="/account/register">Sign-up</a></span>
-            </section>
-        </div>
 
+            <span class="signup-link">Already have an account? <a href="/account/login"> Login</a></span>
+            </section>
     </div>

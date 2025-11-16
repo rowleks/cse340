@@ -10,4 +10,12 @@ async function renderLogin(_, res) {
   res.render("account/login", { title: "Login", nav });
 }
 
-module.exports = { renderLogin };
+// Render sign-up view
+async function renderSignUp(_, res) {
+  const data = await invModel.getClassifications();
+  const nav = utils.buildNav(data);
+
+  res.render("account/register", { title: "Login", nav, errors: null });
+}
+
+module.exports = { renderLogin, renderSignUp };
