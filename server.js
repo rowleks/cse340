@@ -3,16 +3,35 @@ const expressLayouts = require("express-ejs-layouts");
 require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
+
 const { renderHome, renderError } = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
+
 const errorRoute = require("./routes/errorRoute");
 const utils = require("./utilities");
+
+const pool = require("./database");
+const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
 
 // View Engine and Templates (Middlewares)
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/layout");
 app.use(expressLayouts);
 app.use(static);
+
+app.use(
+  session({
+    store: new pgSession({
+      createTableIfMissing: true,
+      pool,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    name: "sessionId",
+  })
+);
 
 // Routes
 app.get("/", utils.handleErrors(renderHome));
