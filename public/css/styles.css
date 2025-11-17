@@ -5,7 +5,9 @@
   --neutral: #f6f6f6;
   --neutral-200: #f9f9f9;
   --success-100: rgb(180, 243, 180);
+  --success-300: rgb(89, 242, 89);
   --error-100: rgb(233, 117, 142);
+  --error-300: rgb(232, 68, 103);
   --error-500: rgb(160, 0, 0);
 }
 
@@ -52,6 +54,12 @@ a {
 img {
   display: block;
   max-width: 100%;
+}
+
+em {
+  text-align: center;
+  color: var(--neutral-200);
+  font-size: smaller;
 }
 
 #top-header {
@@ -367,10 +375,27 @@ form div {
 }
 
 input {
-  padding: 0.35rem 0.25rem;
+  padding: 0.45rem 0.25rem;
   background: white;
   border: none;
   width: 100%;
+}
+
+input:focus {
+  outline: 1px solid var(--secondary);
+}
+
+input:valid:focus {
+  outline-color: var(--success-300);
+}
+
+input:invalid:not(:focus):not(:placeholder-shown) {
+  background-color: var(--error-100);
+  outline: 1px solid var(--error-300);
+}
+
+input:valid:focus {
+  background-color: var(--success-100);
 }
 
 button[type="submit"] {

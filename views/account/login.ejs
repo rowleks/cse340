@@ -9,12 +9,14 @@
             <form class="login-form">
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" name="account_email" id="email">
+                    <input type="email" name="account_email" id="email" placeholder="Enter a valid email address"
+                        required>
                 </div>
                 <div>
                     <span>Password:</span>
                     <label for="password" class="password">
-                        <input type="password" name="account_password" id="password">
+                       <input type="password" name="account_password" id="password" required
+                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" placeholder="">
 
                         <span class="eye-container">
                             <img src="/images/icons/eye-close.svg" alt="hide password" class="hide" width="24"
