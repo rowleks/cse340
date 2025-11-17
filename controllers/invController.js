@@ -5,14 +5,13 @@ const utils = require("../utilities/");
 async function renderByClassId(req, res) {
   const classId = req.params.classificationId;
   const path = req.originalUrl;
-  const data = await invModel.getInvByClassId(classId);
-  const classificationData = await invModel.getClassifications();
+  const invData = await invModel.getInvByClassId(classId);
 
   // Pass in the current path to style active
-  const nav = utils.buildNav(classificationData, path);
-  const grid = utils.buildClassGrid(data);
+  const nav = await utils.buildNav(path, classId);
+  const grid = utils.buildClassGrid(invData);
   const classificationName =
-    data.length > 0 ? data[0].classification_name : "Not Found";
+    invData.length > 0 ? data[0].classification_name : "Not Found";
 
   res.render("./inventory/classification", {
     title: `${classificationName} Vehicles`,
@@ -25,12 +24,11 @@ async function renderByClassId(req, res) {
 async function renderInvById(req, res) {
   const path = req.originalUrl;
   const inv_id = req.params.invId;
-  const classificationData = await invModel.getClassifications();
   const singleInvData = await invModel.getInvById(inv_id);
 
   // Pass in classification id to style active nav
   const classificationId = singleInvData[0]?.classification_id;
-  const nav = utils.buildNav(classificationData, path, classificationId);
+  const nav = await utils.buildNav(path, classificationId);
 
   const content = utils.buildSingleInv(singleInvData);
 

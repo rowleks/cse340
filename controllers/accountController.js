@@ -1,28 +1,24 @@
 //Render the home view
-const invModel = require("../models/inventory-model");
 const accountModel = require("../models/account-model");
 const utils = require("../utilities");
 
 // Render login view
 async function renderLogin(_, res) {
-  const data = await invModel.getClassifications();
-  const nav = utils.buildNav(data);
+  const nav = await utils.buildNav();
 
   res.render("account/login", { title: "Login", nav });
 }
 
 // Render sign-up view
 async function renderSignUp(_, res) {
-  const data = await invModel.getClassifications();
-  const nav = utils.buildNav(data);
+  const nav = await utils.buildNav();
 
   res.render("account/register", { title: "Registration", nav, errors: null });
 }
 
 //Register an account
 async function registerAccount(req, res) {
-  const data = await invModel.getClassifications();
-  const nav = utils.buildNav(data);
+  const nav = await utils.buildNav();
 
   const {
     account_firstname,
@@ -53,6 +49,7 @@ async function registerAccount(req, res) {
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      errors: null,
     });
   }
 }

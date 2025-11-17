@@ -1,5 +1,8 @@
 //Build HTML of navlinks
-function buildNav(data, path, classId) {
+const invModel = require("../models/inventory-model");
+
+async function buildNav(path, classId) {
+  // Wayfinding helper function
   const getActiveNav = (link) => {
     if (path && path.startsWith("/inv/detail")) {
       if (classId && link === classId) {
@@ -14,13 +17,18 @@ function buildNav(data, path, classId) {
       return "_";
     }
   };
-  const navLinks = data
+
+  const classificationLinks = await invModel.getClassifications();
+
+  const navLinks = classificationLinks
     .map(
       (link) => `
         <li>
-          <a href="/inv/type/${link.classification_id
-        }" title="See our inventory of ${link.classification_name
-        } vehicles" class=${getActiveNav(link.classification_id)}>
+          <a href="/inv/type/${
+            link.classification_id
+          }" title="See our inventory of ${
+        link.classification_name
+      } vehicles" class=${getActiveNav(link.classification_id)}>
             ${link.classification_name}
           </a>
         </li>
@@ -29,8 +37,9 @@ function buildNav(data, path, classId) {
     .join("");
 
   const list = `<ul>
-      <li><a href="/" title="Home page" class=${path && path === "/" ? "active" : "_"
-    }>Home</a></li>
+      <li><a href="/" title="Home page" class=${
+        path && path === "/" ? "active" : "_"
+      }>Home</a></li>
       ${navLinks}
     </ul>`;
 
@@ -46,17 +55,21 @@ function buildClassGrid(data) {
         (vehicle) => `
       <div class="buildcard">
         <figure>
-          <a href="/inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make
-          } ${vehicle.inv_model} details">
-            <img src="${vehicle.inv_thumbnail}" alt="Image of ${vehicle.inv_make
-          } ${vehicle.inv_model} on CSE Motors">
+          <a href="/inv/detail/${vehicle.inv_id}" title="View ${
+          vehicle.inv_make
+        } ${vehicle.inv_model} details">
+            <img src="${vehicle.inv_thumbnail}" alt="Image of ${
+          vehicle.inv_make
+        } ${vehicle.inv_model} on CSE Motors">
           </a>
         </figure>
         <div class="card-body">
           <div class="card-title">
-            <a href="/inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make
-          } ${vehicle.inv_model} details">${vehicle.inv_make} ${vehicle.inv_model
-          }</a>
+            <a href="/inv/detail/${vehicle.inv_id}" title="View ${
+          vehicle.inv_make
+        } ${vehicle.inv_model} details">${vehicle.inv_make} ${
+          vehicle.inv_model
+        }</a>
           </div>
           <div class="card-meta">$${new Intl.NumberFormat("en-US").format(
             vehicle.inv_price
@@ -103,13 +116,13 @@ function buildSingleInv(data) {
           </div>
           <div class="inv-meta">
             <p><strong>Price: $${new Intl.NumberFormat("en-US").format(
-      inv_price
-    )}</strong></p>
+              inv_price
+            )}</strong></p>
             <p><strong>Description:</strong> ${inv_description}</p>
             <p><strong>Color:</strong> ${inv_color}</p>
             <p><strong>Miles:</strong> ${new Intl.NumberFormat("en-US").format(
-      inv_miles
-    )}</p>
+              inv_miles
+            )}</p>
           </div>
         </div>`;
     grid = `<div class="inv-detail-grid">${content}</div>`;
