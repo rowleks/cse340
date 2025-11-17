@@ -2,6 +2,18 @@
     <h1>
         <%= title %>
     </h1>
+
+    <div>
+        <% if (errors) { %>
+            <ul class="error">
+                <% errors.array().forEach(error=> { %>
+                    <li>
+                        <%= error.msg %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } %>
+    </div>
     <div class="form-container">
         <form class="login-form" action="/account/register" method="post">
             <span><em>All fields are required</em></span>
