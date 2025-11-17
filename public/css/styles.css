@@ -4,6 +4,9 @@
   --accent: #003f7d;
   --neutral: #f6f6f6;
   --neutral-200: #f9f9f9;
+  --success-100: rgb(180, 243, 180);
+  --error-100: rgb(233, 117, 142);
+  --error-500: rgb(160, 0, 0);
 }
 
 *,
@@ -98,17 +101,32 @@ li {
   list-style: none;
 }
 
-ul.info {
+ul.info,
+ul.success,
+ul.error {
   display: grid;
   gap: 1rem;
   margin-block: 1rem;
 }
 
-ul.info li {
+ul.info li,
+ul.success li,
+ul.error li {
   border-left: 5px solid var(--secondary);
   padding: 1em 1.5em;
   background: var(--neutral-200);
   width: fit-content;
+}
+
+ul.info li {
+  border-left: 5px solid var(--secondary);
+}
+
+ul.success li {
+  border-left: 5px solid var(--success-100);
+}
+ul.error li {
+  border-left: 5px solid var(--error-100);
 }
 
 .show {
@@ -204,7 +222,7 @@ footer {
 }
 
 footer a {
-  color: rgb(160, 0, 0);
+  color: var(--error-500);
   margin-top: 0.5rem;
   display: inline-block;
   text-decoration: underline;

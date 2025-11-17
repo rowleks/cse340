@@ -17,6 +17,8 @@ const pgSession = require("connect-pg-simple")(session);
 const connectFlash = require("connect-flash")();
 const messages = require("express-messages");
 
+const bodyParser = require("body-parser");
+
 // View Engine and Templates (Middlewares)
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/layout");
@@ -43,6 +45,9 @@ app.use((req, res, next) => {
   res.locals.messages = messages(req, res);
   next();
 });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.get("/", utils.handleErrors(renderHome));

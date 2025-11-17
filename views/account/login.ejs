@@ -2,32 +2,34 @@
     <h1>
         <%= title %>
     </h1>
-    <div class="form-container">
-        <form class="login-form">
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" name="account_email" id="email">
-            </div>
-            <div>
-                <span>Password:</span>
-                <label for="password" class="password">
-                    <input type="password" name="account_password" id="password">
 
-                    <span class="eye-container">
-                        <img src="/images/icons/eye-close.svg" alt="hide password" class="hide" width="24" height="24"
-                            id="hide-password" title="Hide password">
-                        <img src="/images/icons/eye-open.svg" alt="show password" class="" width="24" height="24"
-                            id="show-password" title="Show password">
-                    </span>
-                </label>
-            </div>
-            <button type="submit">Login</button>
-        </form>
+    <%- messages() %>
 
-        <%# messages() %>
-        <div class="signup-link">
-            <span >No account? <a href="/account/register">Sign-up</a></span>
-            </section>
+        <div class="form-container">
+            <form class="login-form">
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" name="account_email" id="email">
+                </div>
+                <div>
+                    <span>Password:</span>
+                    <label for="password" class="password">
+                        <input type="password" name="account_password" id="password">
+
+                        <span class="eye-container">
+                            <img src="/images/icons/eye-close.svg" alt="hide password" class="hide" width="24"
+                                height="24" id="hide-password" title="Hide password">
+                            <img src="/images/icons/eye-open.svg" alt="show password" class="" width="24" height="24"
+                                id="show-password" title="Show password">
+                        </span>
+                    </label>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="signup-link">
+                <span>No account? <a href="/account/register">Sign-up</a></span>
+                </section>
+            </div>
+
         </div>
-
-    </div>

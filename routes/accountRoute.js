@@ -3,10 +3,13 @@ const utils = require("../utilities");
 const {
   renderLogin,
   renderSignUp,
+  registerAccount,
 } = require("../controllers/accountController");
 const router = express.Router();
 
 router.get("/login", utils.handleErrors(renderLogin));
+
 router.get("/register", utils.handleErrors(renderSignUp));
 
+router.post("/register", utils.handleErrors(registerAccount))
 module.exports = router;
