@@ -11,7 +11,7 @@ async function renderByClassId(req, res) {
   const nav = await utils.buildNav(path, classId);
   const grid = utils.buildClassGrid(invData);
   const classificationName =
-    invData.length > 0 ? data[0].classification_name : "Not Found";
+    invData.length > 0 ? invData[0].classification_name : "Not Found";
 
   res.render("./inventory/classification", {
     title: `${classificationName} Vehicles`,

@@ -131,4 +131,5 @@ function buildSingleInv(data) {
   }
   return grid;
 }
+
 module.exports = { buildNav, buildClassGrid, handleErrors, buildSingleInv };
