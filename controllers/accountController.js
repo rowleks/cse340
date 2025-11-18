@@ -6,7 +6,7 @@ const utils = require("../utilities");
 async function renderLogin(_, res) {
   const nav = await utils.buildNav();
 
-  res.render("account/login", { title: "Login", nav });
+  res.render("account/login", { title: "Login", nav, errors: null });
 }
 
 // Render sign-up view
@@ -42,6 +42,7 @@ async function registerAccount(req, res) {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      errors: null,
     });
   } else {
     req.flash("error", "Sorry, the registration failed.");

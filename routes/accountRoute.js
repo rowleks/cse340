@@ -13,6 +13,15 @@ router.get("/login", utils.handleErrors(renderLogin));
 router.get("/register", utils.handleErrors(renderSignUp));
 
 router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  (_, res) => {
+    res.status(200).send("login process");
+  }
+);
+
+router.post(
   "/register",
   regValidate.registrationRules(),
   regValidate.checkRegData,

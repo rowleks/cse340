@@ -5,11 +5,24 @@
 
     <%- messages() %>
 
+        <div>
+            <% if (errors) { %>
+                <ul class="error">
+                    <% errors.array().forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+        </div>
+
         <div class="form-container">
-            <form class="login-form">
+            <form class="login-form" action="/account/login" method="post">
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" name="account_email" id="email" placeholder="" required>
+                    <input type="email" name="account_email" id="email" placeholder="" required
+                        value="<%= locals.account_email || '' %>">
                 </div>
                 <div>
                     <span>Password:</span>

@@ -30,7 +30,11 @@ function registrationRules() {
           throw new Error("Email exists. Please log in or use different email");
         }
       }),
+  ];
+}
 
+function loginRules() {
+  return [
     body("account_password")
       .trim()
       .isStrongPassword({
@@ -40,7 +44,23 @@ function registrationRules() {
         minNumbers: 1,
         minSymbols: 1,
       })
-      .withMessage("Password does not meet requirements."),
+      .withMessage("Incorrect username or password"),
+    body("account_email")
+      .trim()
+      .escape()
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingEmail(
+          account_email
+        );
+        if (!emailExists) {
+          throw new Error(
+            "You currently do not have an account. Please sign up"
+          );
+        }
+      }),
   ];
 }
 
@@ -63,5 +83,27 @@ async function checkRegData(req, res, next) {
   }
   next();
 }
+async function checkLoginData(req, res, next) {
+  const { account_email } = req.body;
+  let errors = [];
+  errors = validationResult(req);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    const nav = await utils.buildNav();
+    res.render("account/login", {
+      errors,
+      title: "Login",
+      nav,
+      account_email,
+    });
+    return;
+  }
+  next();
+}
 
-module.exports = { registrationRules, checkRegData };
+module.exports = {
+  registrationRules,
+  checkRegData,
+  checkLoginData,
+  loginRules,
+};
