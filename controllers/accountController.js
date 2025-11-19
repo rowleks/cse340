@@ -1,6 +1,7 @@
 //Render the home view
 const accountModel = require("../models/account-model");
 const utils = require("../utilities");
+const bcrypt = require("bcryptjs");
 
 // Render login view
 async function renderLogin(_, res) {
@@ -27,11 +28,28 @@ async function registerAccount(req, res) {
     account_password,
   } = req.body;
 
+  let hashedPassword;
+
+  try {
+    hashedPassword = await bcrypt.hash(account_password, 10);
+  } catch (error) {
+    req.flash("error", "Sorry, something went wrong. Kindly try again");
+
+    res.status(500).render("account/register", {
+      title: "Registration",
+      nav,
+      errors: null,
+      account_firstname,
+      account_lastname,
+      account_email,
+    });
+  }
+
   const regResult = await accountModel.storeNewAccount(
     account_firstname,
     account_lastname,
     account_email,
-    account_password
+    hashedPassword
   );
 
   if (regResult) {
@@ -45,12 +63,15 @@ async function registerAccount(req, res) {
       errors: null,
     });
   } else {
-    req.flash("error", "Sorry, the registration failed.");
+    req.flash("error", "Sorry, something went wrong. Kindly try again");
 
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
       errors: null,
+      account_firstname,
+      account_lastname,
+      account_email,
     });
   }
 }

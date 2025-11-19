@@ -2,61 +2,61 @@
     <h1>
         <%= title %>
     </h1>
+    <%- messages() %>
 
-    <div>
-        <% if (errors) { %>
-            <ul class="error">
-                <% errors.array().forEach(error=> { %>
-                    <li>
-                        <%= error.msg %>
-                    </li>
-                    <% }) %>
-            </ul>
-            <% } %>
-    </div>
-    <div class="form-container">
-        <form class="login-form" action="/account/register" method="post">
-            <span><em>All fields are required</em></span>
-            <div>
-                <label for="firstname">First name:</label>
-                <input type="name" name="account_firstname" id="firstname" required pattern="[A-Za-z]{3,}"
-                    placeholder="" value="<%= locals.account_firstname || '' %>">
-            </div>
-            <div>
-                <label for="lastname">Last name:</label>
-                <input type="lastname" name="account_lastname" id="lastname" required pattern="[A-Za-z]{3,}"
-                    placeholder="" value="<%= locals.account_lastname || '' %>">
-            </div>
-            <div>
-                <label for="email">Email address:</label>
-                <input type="email" name="account_email" id="email" placeholder="Enter a valid email address" required
-                    value="<%= locals.account_email || '' %>">
-            </div>
-            <div>
-                <span>Password:</span>
-                <label for="password" class="password">
-                    <input type="password" name="account_password" id="password" required
-                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" placeholder="">
+        <div>
+            <% if (errors) { %>
+                <ul class="error">
+                    <% errors.array().forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+        </div>
+        <div class="form-container">
+            <form class="login-form" action="/account/register" method="post">
+                <span><em>All fields are required</em></span>
+                <div>
+                    <label for="firstname">First name:</label>
+                    <input type="text" name="account_firstname" id="firstname" required pattern="[A-Za-z]{3,}"
+                        placeholder="" value="<%= locals.account_firstname || '' %>">
+                </div>
+                <div>
+                    <label for="lastname">Last name:</label>
+                    <input type="text" name="account_lastname" id="lastname" required pattern="[A-Za-z]{3,}"
+                        placeholder="" value="<%= locals.account_lastname || '' %>">
+                </div>
+                <div>
+                    <label for="email">Email address:</label>
+                    <input type="email" name="account_email" id="email" placeholder="Enter a valid email address"
+                        required value="<%= locals.account_email || '' %>">
+                </div>
+                <div>
+                    <span>Password:</span>
+                    <label for="password" class="password">
+                        <input type="password" name="account_password" id="password" required
+                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" placeholder="">
 
-                    <span class="eye-container">
-                        <img src="/images/icons/eye-close.svg" alt="hide password" class="hide" width="24" height="24"
-                            id="hide-password" title="Hide password">
-                        <img src="/images/icons/eye-open.svg" alt="show password" class="" width="24" height="24"
-                            id="show-password" title="Show password">
-                    </span>
-                </label>
+                        <span class="eye-container">
+                            <img src="/images/icons/eye-close.svg" alt="hide password" class="hide" width="24"
+                                height="24" id="hide-password" title="Hide password">
+                            <img src="/images/icons/eye-open.svg" alt="show password" class="" width="24" height="24"
+                                id="show-password" title="Show password">
+                        </span>
+                    </label>
 
-                <span><em>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1
-                        special character</em></span>
+                    <span><em>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter
+                            and 1
+                            special character</em></span>
 
-            </div>
+                </div>
 
 
-            <button type="submit">Register</button>
-        </form>
-
-        <%# messages() %>
+                <button type="submit">Register</button>
+            </form>
 
             <span class="signup-link">Already have an account? &nbsp; <a href="/account/login">Login</a></span>
-            </section>
-    </div>
+        </div>
+</div>

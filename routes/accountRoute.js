@@ -16,9 +16,9 @@ router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  (_, res) => {
+  utils.handleErrors((_, res) => {
     res.status(200).send("login process");
-  }
+  })
 );
 
 router.post(
