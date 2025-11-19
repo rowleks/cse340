@@ -88,6 +88,8 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+  row-gap: 1rem;
 }
 
 nav a {

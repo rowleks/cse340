@@ -34,5 +34,33 @@ async function getInvById(id) {
   }
 }
 
+async function addClassification(name) {
+  try {
+    const queryText =
+      "INSERT INTO classification(classification_name) VALUES ($1) RETURNING *";
+    const data = await db.query(queryText, [name]);
+    return data.rowCount;
+  } catch (err) {
+    console.error("addClassification error " + err);
+    return err.message;
+  }
+}
+
+async function checkExistingClassification(name) {
+  try {
+    const query = "SELECT * FROM classification WHERE classification_name = $1";
+    const result = await db.query(query, [name]);
+    return result.rowCount;
+  } catch (error) {
+    return error.message;
+  }
+}
+
 //export the models
-module.exports = { getClassifications, getInvByClassId, getInvById };
+module.exports = {
+  getClassifications,
+  getInvByClassId,
+  getInvById,
+  addClassification,
+  checkExistingClassification,
+};

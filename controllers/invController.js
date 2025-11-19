@@ -49,7 +49,7 @@ async function renderInvById(req, res) {
   });
 }
 
-async function renderInvMgmt(req, res) {
+async function renderInvMgmt(_, res) {
   const nav = await utils.buildNav();
 
   res.render("./inventory/manage-classifications", {
@@ -58,4 +58,45 @@ async function renderInvMgmt(req, res) {
   });
 }
 
-module.exports = { renderByClassId, renderInvById, renderInvMgmt };
+async function renderClassificationForm(_, res) {
+  const nav = await utils.buildNav();
+
+  res.render("inventory/add-classification", {
+    title: "Add New Classification",
+    nav,
+    errors: null,
+  });
+}
+
+async function addNewClassification(req, res) {
+  const { classification_name } = req.body;
+
+  try {
+    result = await invModel.addClassification(classification_name);
+    const nav = await utils.buildNav();
+    if (result === 1) {
+      req.flash("success", "Added new classification");
+      res.status(201).render("inventory/manage-classifications", {
+        title: "Manage Classifications",
+        nav,
+      });
+    } else {
+      req.flash("error", "Sorry, something went wrong, please try again");
+      res.status(501).render("inventory/add-classification", {
+        title: "Add New Classification",
+        nav,
+        errors: null,
+        classification_name,
+      });
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+module.exports = {
+  renderByClassId,
+  renderInvById,
+  renderInvMgmt,
+  addNewClassification,
+  renderClassificationForm,
+};
