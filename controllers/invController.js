@@ -49,4 +49,13 @@ async function renderInvById(req, res) {
   });
 }
 
-module.exports = { renderByClassId, renderInvById };
+async function renderInvMgmt(req, res) {
+  const nav = await utils.buildNav();
+
+  res.render("./inventory/manage-classifications", {
+    title: "Manage Classifications",
+    nav,
+  });
+}
+
+module.exports = { renderByClassId, renderInvById, renderInvMgmt };

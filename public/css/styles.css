@@ -441,6 +441,23 @@ label.password {
   cursor: pointer;
 }
 
+/******* Inv management page *******/
+.inv-mgmt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.inv-mgmt a {
+  color: var(--primary);
+  width: fit-content;
+}
+.inv-mgmt a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--accent);
+  transition: all 1s ease-in-out;
+}
+
 /******* Media Queries *******/
 
 @media (min-width: 600px) {
