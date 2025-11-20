@@ -364,7 +364,7 @@ form {
   flex-direction: column;
   gap: 2rem;
   background-color: var(--accent);
-  max-width: 350px;
+  max-width: 400px;
   padding: 1.5rem 2rem;
   margin-inline: auto;
 }
@@ -376,14 +376,28 @@ form div {
   color: white;
 }
 
-input {
+input,
+select,
+textarea {
   padding: 0.45rem 0.25rem;
   background: white;
   border: none;
   width: 100%;
 }
 
-input:focus {
+textarea {
+  resize: none;
+  font-family: inherit;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
   outline: 1px solid var(--secondary);
 }
 
@@ -449,11 +463,13 @@ label.password {
   flex-direction: column;
   gap: 0.5rem;
 }
-.inv-mgmt a {
+.inv-mgmt a,
+.redirect-link {
   color: var(--primary);
   width: fit-content;
 }
-.inv-mgmt a:hover {
+.inv-mgmt a:hover,
+.redirect-link:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
   color: var(--accent);

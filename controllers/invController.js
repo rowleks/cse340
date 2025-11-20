@@ -68,11 +68,22 @@ async function renderClassificationForm(_, res) {
   });
 }
 
+async function renderAddInvForm(_, res) {
+  const nav = await utils.buildNav();
+  const classifications = await utils.getClassificationList();
+  res.render("inventory/add-inventory", {
+    title: "Add New Vehicle",
+    nav,
+    errors: null,
+    classifications,
+  });
+}
+
 async function addNewClassification(req, res) {
-  const { classification_name } = req.body;
+  const { classification_id } = req.body;
 
   try {
-    result = await invModel.addClassification(classification_name);
+    const result = await invModel.addClassification(classification_id);
     const nav = await utils.buildNav();
     if (result === 1) {
       req.flash("success", "Added new classification");
@@ -93,10 +104,75 @@ async function addNewClassification(req, res) {
     console.error(err.message);
   }
 }
+
+async function addNewInv(req, res) {
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+  } = req.body;
+
+  try {
+    const result = await invModel.addInventory(
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color
+    );
+
+    const classifications = await utils.getClassificationList();
+    const nav = await utils.buildNav();
+    if (result === 1) {
+      req.flash(
+        "success",
+        `Added ${inv_make} ${inv_model} to the inventory <a href="/inv/type/${classification_id}" class="redirect-link">View here</a/`
+      );
+      res.status(201).render("inventory/manage-classifications", {
+        title: "Manage Classifications",
+        nav,
+      });
+    } else {
+      req.flash("error", "Sorry, something went wrong, please try again");
+      res.status(501).render("inventory/add-inventory", {
+        title: "Add New Vehicle",
+        nav,
+        errors: null,
+        classification_id,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color,
+        classifications,
+      });
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+}
 module.exports = {
   renderByClassId,
   renderInvById,
   renderInvMgmt,
   addNewClassification,
   renderClassificationForm,
+  renderAddInvForm,
+  addNewInv,
 };

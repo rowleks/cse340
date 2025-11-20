@@ -132,4 +132,15 @@ function buildSingleInv(data) {
   return grid;
 }
 
-module.exports = { buildNav, buildClassGrid, handleErrors, buildSingleInv };
+async function getClassificationList() {
+  const list = await invModel.getClassifications();
+  return list;
+}
+
+module.exports = {
+  buildNav,
+  buildClassGrid,
+  handleErrors,
+  buildSingleInv,
+  getClassificationList,
+};

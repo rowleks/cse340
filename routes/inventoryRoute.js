@@ -7,6 +7,8 @@ const {
   renderInvMgmt,
   addNewClassification,
   renderClassificationForm,
+  renderAddInvForm,
+  addNewInv,
 } = require("../controllers/invController");
 const invValidation = require("../utilities/inventory-validation");
 
@@ -23,6 +25,15 @@ router.post(
   invValidation.addClassificationRules(),
   invValidation.checkClassificationData,
   utils.handleErrors(addNewClassification)
+);
+
+router.get("/add-inventory", utils.handleErrors(renderAddInvForm));
+
+router.post(
+  "/add-inventory",
+  invValidation.addInventoryRules(),
+  invValidation.checkInventoryData,
+  utils.handleErrors(addNewInv)
 );
 
 module.exports = router;
