@@ -8,8 +8,9 @@ function addClassificationRules() {
       .trim()
       .escape()
       .isLength({ min: 3 })
+      .withMessage("Classification name must be at least 3 characters.")
       .isAlpha()
-      .withMessage("Please provide a valid classification name.")
+      .withMessage("Classification name must only contain letters.")
       .custom(async (classification_name) => {
         const classificationExists = await invModel.checkExistingClassification(
           classification_name
@@ -59,11 +60,12 @@ function addInventoryRules() {
       .trim()
       .escape()
       .isLength({ min: 4, max: 4 })
-      .withMessage("Please provide a valid 4-digit year."),
+      .withMessage("Please provide a 4-digit year.")
+      .isNumeric()
+      .withMessage("Year must be numeric."),
 
     body("inv_description")
       .trim()
-      .escape()
       .isLength({ min: 10 })
       .withMessage("Please provide a description."),
 
@@ -81,13 +83,13 @@ function addInventoryRules() {
       .trim()
       .escape()
       .isNumeric()
-      .withMessage("Please provide a valid price."),
+      .withMessage("Please provide a valid price (digits only)."),
 
     body("inv_miles")
       .trim()
       .escape()
       .isNumeric()
-      .withMessage("Please provide valid mileage."),
+      .withMessage("Please provide valid mileage (digits only)."),
 
     body("inv_color")
       .trim()

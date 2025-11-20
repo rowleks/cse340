@@ -8,13 +8,13 @@ function registrationRules() {
       .trim()
       .escape()
       .isLength({ min: 3 })
-      .withMessage("Please provide a first name."),
+      .withMessage("First name must be at least 3 characters."),
 
     body("account_lastname")
       .trim()
       .escape()
       .isLength({ min: 3 })
-      .withMessage("Please provide a last name."),
+      .withMessage("Last name must be at least 3 characters."),
 
     body("account_email")
       .trim()
@@ -40,7 +40,9 @@ function registrationRules() {
         minNumbers: 1,
         minSymbols: 1,
       })
-      .withMessage("Password does not meet requirements."),
+      .withMessage(
+        "Password must be at least 12 characters long and include 1 uppercase, 1 lowercase, 1 number, and 1 symbol."
+      ),
   ];
 }
 
@@ -56,6 +58,7 @@ function loginRules() {
         minSymbols: 1,
       })
       .withMessage("Incorrect username or password"),
+
     body("account_email")
       .trim()
       .escape()
@@ -79,7 +82,6 @@ async function checkRegData(req, res, next) {
   const { account_firstname, account_lastname, account_email } = req.body;
   let errors = [];
   errors = validationResult(req);
-  console.log(errors);
   if (!errors.isEmpty()) {
     const nav = await utils.buildNav();
     res.render("account/register", {
@@ -98,7 +100,6 @@ async function checkLoginData(req, res, next) {
   const { account_email } = req.body;
   let errors = [];
   errors = validationResult(req);
-  console.log(errors);
   if (!errors.isEmpty()) {
     const nav = await utils.buildNav();
     res.render("account/login", {
