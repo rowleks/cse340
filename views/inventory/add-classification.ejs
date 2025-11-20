@@ -1,0 +1,33 @@
+<div>
+    <h1>
+        <%= title %>
+    </h1>
+
+    <%- messages() %>
+
+        <div>
+            <% if (errors) { %>
+                <ul class="error">
+                    <% errors.array().forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+        </div>
+
+        <div class="form-container">
+            <form action="/inv/add-classification" method="post">
+                <span><em>This field is required</em></span>
+                <div>
+                    <label for="classification-name">Classification name</label>
+                    <input type="text" name="classification_name" id="classification-name" pattern="^[a-zA-Z]*$"
+                        placeholder="" required value="<%= locals.classification_name || '' %>">
+                    <span><em>Name cannot contain a number, space or any special character</em></span>
+                </div>
+
+                <button type="submit">Add Classification</button>
+            </form>
+        </div>
+</div>

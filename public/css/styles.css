@@ -3,6 +3,12 @@
   --secondary: #bfdfff;
   --accent: #003f7d;
   --neutral: #f6f6f6;
+  --neutral-200: #f9f9f9;
+  --success-100: rgb(180, 243, 180);
+  --success-300: rgb(89, 242, 89);
+  --error-100: rgb(233, 117, 142);
+  --error-300: rgb(232, 68, 103);
+  --error-500: rgb(160, 0, 0);
 }
 
 *,
@@ -50,6 +56,12 @@ img {
   max-width: 100%;
 }
 
+em {
+  text-align: center;
+  color: var(--neutral-200);
+  font-size: smaller;
+}
+
 #top-header {
   display: flex;
   align-items: center;
@@ -76,6 +88,8 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+  row-gap: 1rem;
 }
 
 nav a {
@@ -96,6 +110,44 @@ nav a:not(.active):hover {
 li {
   list-style: none;
 }
+
+ul.info,
+ul.success,
+ul.error {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+
+ul.info li,
+ul.success li,
+ul.error li {
+  border-left: 5px solid var(--secondary);
+  padding: 1em 1.5em;
+  background: var(--neutral-200);
+  width: fit-content;
+}
+
+ul.info li {
+  border-left: 5px solid var(--secondary);
+}
+
+ul.success li {
+  border-left: 5px solid var(--success-100);
+}
+ul.error li {
+  border-left: 5px solid var(--error-100);
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+/******* Homepage Styling *******/
 
 .hero {
   position: relative;
@@ -180,7 +232,7 @@ footer {
 }
 
 footer a {
-  color: rgb(160, 0, 0);
+  color: var(--error-500);
   margin-top: 0.5rem;
   display: inline-block;
   text-decoration: underline;
@@ -300,6 +352,131 @@ footer a {
 .inv-meta p:nth-child(odd) {
   background-color: var(--neutral);
 }
+
+/******* Login page *******/
+.form-container {
+  padding: 1.5rem;
+  background-color: var(--secondary);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--accent);
+  max-width: 400px;
+  padding: 1.5rem 2rem;
+  margin-inline: auto;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: white;
+}
+
+input,
+select,
+textarea {
+  padding: 0.45rem 0.25rem;
+  background: white;
+  border: none;
+  width: 100%;
+}
+
+textarea {
+  resize: none;
+  font-family: inherit;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 1px solid var(--secondary);
+}
+
+input:valid:focus {
+  outline-color: var(--success-300);
+}
+
+input:invalid:not(:focus):not(:placeholder-shown) {
+  background-color: var(--error-100);
+  outline: 1px solid var(--error-300);
+}
+
+input:valid:focus {
+  background-color: var(--success-100);
+}
+
+button[type="submit"] {
+  background-color: white;
+  color: black;
+  padding: 0.5em 0.75rem;
+  border-radius: 50px;
+  width: fit-content;
+  border: none;
+  margin-inline: auto;
+  cursor: pointer;
+}
+
+.signup-link {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.signup-link a {
+  text-decoration: underline;
+}
+
+.signup-link a:hover {
+  color: var(--accent);
+}
+
+/******* Sign-up page *******/
+
+label.password {
+  position: relative;
+}
+
+.eye-container {
+  position: absolute;
+  top: 50%;
+  right: 4%;
+  transform: translateY(-50%);
+  width: fit-content;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/******* Inv management page *******/
+.inv-mgmt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.inv-mgmt a,
+.redirect-link {
+  color: var(--primary);
+  width: fit-content;
+}
+.inv-mgmt a:hover,
+.redirect-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--accent);
+  transition: all 1s ease-in-out;
+}
+
+/******* Media Queries *******/
 
 @media (min-width: 600px) {
   body {

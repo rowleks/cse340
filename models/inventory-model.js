@@ -34,5 +34,67 @@ async function getInvById(id) {
   }
 }
 
+async function addClassification(name) {
+  try {
+    const queryText =
+      "INSERT INTO classification(classification_name) VALUES ($1) RETURNING *";
+    const data = await db.query(queryText, [name]);
+    return data.rowCount;
+  } catch (err) {
+    console.error("addClassification error " + err);
+    return err.message;
+  }
+}
+
+async function checkExistingClassification(name) {
+  try {
+    const query = "SELECT * FROM classification WHERE classification_name = $1";
+    const result = await db.query(query, [name]);
+    return result.rowCount;
+  } catch (error) {
+    return error.message;
+  }
+}
+
+async function addInventory(
+  classificationID,
+  make,
+  model,
+  description,
+  imgPath,
+  imgTnPath,
+  price,
+  year,
+  miles,
+  color
+) {
+  try {
+    const queryText =
+      "INSERT INTO inventory (classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
+    const data = await db.query(queryText, [
+      classificationID,
+      make,
+      model,
+      description,
+      imgPath,
+      imgTnPath,
+      price,
+      year,
+      miles,
+      color,
+    ]);
+    return data.rowCount;
+  } catch (error) {
+    console.error("addInventory error " + err);
+  }
+}
+
 //export the models
-module.exports = { getClassifications, getInvByClassId, getInvById };
+module.exports = {
+  getClassifications,
+  getInvByClassId,
+  getInvById,
+  addClassification,
+  checkExistingClassification,
+  addInventory,
+};

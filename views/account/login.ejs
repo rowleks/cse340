@@ -1,0 +1,49 @@
+<div>
+    <h1>
+        <%= title %>
+    </h1>
+
+    <%- messages() %>
+
+        <div>
+            <% if (errors) { %>
+                <ul class="error">
+                    <% errors.array().forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+        </div>
+
+        <div class="form-container">
+            <form class="login-form" action="/account/login" method="post">
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" name="account_email" id="email" placeholder="" required
+                        value="<%= locals.account_email || '' %>">
+                </div>
+                <div>
+                    <span>Password:</span>
+                    <label for="password" class="password">
+                        <input type="password" name="account_password" id="password" required
+                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" placeholder="">
+
+                        <span class="eye-container">
+                            <img src="/images/icons/eye-close.svg" alt="hide password" class="hide" width="24"
+                                height="24" id="hide-password" title="Hide password">
+                            <img src="/images/icons/eye-open.svg" alt="show password" class="" width="24" height="24"
+                                id="show-password" title="Show password">
+                        </span>
+                    </label>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="signup-link">
+                <span>No account? <a href="/account/register">Sign-up</a></span>
+            </div>
+
+        </div>
+</div>

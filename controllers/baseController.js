@@ -1,18 +1,15 @@
 const utils = require("../utilities/");
-const invModel = require("../models/inventory-model");
 
 //Render the home view
 async function renderHome(req, res) {
-  const data = await invModel.getClassifications();
   const path = req.originalUrl;
-  const nav = utils.buildNav(data, path);
+  const nav = await utils.buildNav(path);
 
   res.render("index", { title: "Home", nav });
 }
 
 async function renderError(err, req, res, _) {
-  const data = await invModel.getClassifications();
-  const nav = utils.buildNav(data);
+  const nav = await utils.buildNav();
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
 
   let message;
