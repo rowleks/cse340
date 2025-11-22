@@ -1,5 +1,6 @@
-//Build HTML of navlinks
 const invModel = require("../models/inventory-model");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 async function buildNav(path, classId) {
   // Wayfinding helper function
@@ -137,10 +138,30 @@ async function getClassificationList() {
   return list;
 }
 
+async function checkJWTToken(req, res, next) {
+  const accessToken = req.cookies.jwt;
+  if (accessToken) {
+    jwt.verify(accessToken, process.env.JWT_SECRET, (err, payload) => {
+      if (err) {
+        req.flash("Please log in");
+        res.clearCookie("jwt");
+        return res.status(403).redirect("/account/login");
+      }
+
+      res.locals.accountData = payload;
+      res.locals.loggedIn = true;
+      next();
+    });
+  } else {
+    next();
+  }
+}
+
 module.exports = {
   buildNav,
   buildClassGrid,
   handleErrors,
   buildSingleInv,
   getClassificationList,
+  checkJWTToken,
 };

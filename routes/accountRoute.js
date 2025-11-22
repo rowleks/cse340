@@ -4,9 +4,13 @@ const {
   renderLogin,
   renderSignUp,
   registerAccount,
+  accountLogin,
+  renderAcctMgmt,
 } = require("../controllers/accountController");
 const regValidate = require("../utilities/account-validation");
 const router = express.Router();
+
+router.get("/", utils.handleErrors(renderAcctMgmt));
 
 router.get("/login", utils.handleErrors(renderLogin));
 
@@ -16,9 +20,7 @@ router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  utils.handleErrors((_, res) => {
-    res.status(200).send("login process");
-  })
+  utils.handleErrors(accountLogin)
 );
 
 router.post(

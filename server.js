@@ -18,12 +18,15 @@ const connectFlash = require("connect-flash")();
 const messages = require("express-messages");
 
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser")();
 
 // View Engine and Templates (Middlewares)
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/layout");
 app.use(expressLayouts);
 app.use(static);
+
+app.use(cookieParser);
 
 // Sessions and Flash messages
 app.use(
@@ -48,6 +51,8 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(utils.checkJWTToken);
 
 // Routes
 app.get("/", utils.handleErrors(renderHome));
