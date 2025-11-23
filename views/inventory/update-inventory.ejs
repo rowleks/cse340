@@ -16,7 +16,7 @@
                 <% } %>
         </div>
         <div class="form-container">
-            <form action="/inv/add-inventory" method="post">
+            <form action="/inv/update-inventory" method="post" id="update-form">
                 <span><em>All fields are required</em></span>
                 <div>
                     <label for="classification-name">Classification</label>
@@ -75,8 +75,11 @@
                     <input type="text" name="inv_color" id="color" required placeholder="Color names"
                         pattern="[A-Za-z]{3,}" value="<%= locals.inv_color || '' %>">
                 </div>
+                <input type="hidden" name="inv_id" value="<%= locals.inv_id || '' %>">
 
-                <button type="submit">Register</button>
+                <button type="submit" disabled id="update-button">Update Vehicle</button>
             </form>
         </div>
+
+        <script src="/js/invUpdate.js"></script>
 </div>

@@ -149,7 +149,7 @@ async function accountLogin(req, res) {
       });
     }
   } catch (err) {
-    throw new Error("Access Forbidden");
+    throw new Error("Access Forbidden", err.message);
   }
 }
 

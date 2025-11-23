@@ -5,7 +5,6 @@ const invTable = document.getElementById("inventory-table");
 
 classificationList.addEventListener("change", async () => {
   const classification_id = classificationList.value;
-  //   console.log("classification_id is " + classification_id);
 
   const fetchUrl = `/inv/getInventory/${classification_id}`;
 

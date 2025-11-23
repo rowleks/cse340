@@ -90,10 +90,7 @@ async function addNewClassification(req, res) {
     const nav = await utils.buildNav();
     if (result === 1) {
       req.flash("success", "Added new classification");
-      res.status(201).render("inventory/manage-classifications", {
-        title: "Manage Classifications",
-        nav,
-      });
+      res.redirect("/inv");
     } else {
       req.flash("error", "Sorry, something went wrong, please try again");
       res.status(501).render("inventory/add-classification", {
@@ -104,7 +101,14 @@ async function addNewClassification(req, res) {
       });
     }
   } catch (err) {
-    console.error(err.message);
+    console.error("Error adding classification:", err.message);
+    req.flash("error", "Sorry, something went wrong, please try again");
+    const nav = await utils.buildNav();
+    res.status(500).render("inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: null,
+    });
   }
 }
 
@@ -141,12 +145,9 @@ async function addNewInv(req, res) {
     if (result === 1) {
       req.flash(
         "success",
-        `Added ${inv_make} ${inv_model} to the inventory <a href="/inv/type/${classification_id}" class="redirect-link">View here</a/`
+        `Added ${inv_make} ${inv_model} to the inventory <a href="/inv/type/${classification_id}" class="redirect-link"> View here</a/`
       );
-      res.status(201).render("inventory/manage-classifications", {
-        title: "Manage Classifications",
-        nav,
-      });
+      res.redirect("/inv");
     } else {
       req.flash("error", "Sorry, something went wrong, please try again");
       res.status(501).render("inventory/add-inventory", {
@@ -167,17 +168,152 @@ async function addNewInv(req, res) {
       });
     }
   } catch (err) {
-    console.error(err.message);
+    console.error("Error adding inventory:", err.message);
+    req.flash("error", "Sorry, something went wrong, please try again");
+    const classifications = await utils.getClassificationList();
+    const nav = await utils.buildNav();
+    res.status(500).render("inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      errors: null,
+      classifications,
+    });
   }
 }
 
-async function getInventoryJSON(req, res) {
+async function getInventoryJSON(req, res, next) {
   const classification_id = parseInt(req.params.classificationId);
   const invData = await invModel.getInvByClassId(classification_id);
   if (invData[0]) {
     return res.json(invData);
   } else {
     next(new Error("No data available"));
+  }
+}
+
+async function editInv(req, res) {
+  const inventory_id = parseInt(req.params.invId);
+
+  const invData = await invModel.getInvById(inventory_id);
+
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    inv_id,
+  } = invData[0];
+
+  const title = `Edit ${inv_make} ${inv_model}`;
+
+  const classifications = await utils.getClassificationList();
+  const nav = await utils.buildNav();
+
+  res.render("inventory/update-inventory", {
+    title,
+    nav,
+    errors: null,
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classifications,
+    inv_id,
+  });
+}
+
+async function updateInv(req, res) {
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    inv_id,
+  } = req.body;
+
+  try {
+    const updateResult = await invModel.updateInventory(
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id
+    );
+
+    const classifications = await utils.getClassificationList();
+    const nav = await utils.buildNav();
+    const title = `Edit ${inv_make} ${inv_model}`;
+    if (updateResult === 1) {
+      req.flash(
+        "success",
+        `Successfully updated ${inv_make} ${inv_model}<a href="/inv/type/${classification_id}" class="redirect-link"> View here</a/`
+      );
+      res.redirect("/inv");
+    } else {
+      req.flash("error", "Sorry, something went wrong, please try again");
+      res.status(501).render("inventory/update-inventory", {
+        title,
+        nav,
+        errors: null,
+        classification_id,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color,
+        classifications,
+      });
+    }
+  } catch (err) {
+    console.error("Error updating inventory:", err.message);
+    req.flash("error", "Sorry, something went wrong, please try again");
+    const classifications = await utils.getClassificationList();
+    const nav = await utils.buildNav();
+    const title = `Edit ${inv_make} ${inv_model}`;
+    res.status(500).render("inventory/update-inventory", {
+      title,
+      nav,
+      errors: null,
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classifications,
+    });
   }
 }
 
@@ -190,4 +326,6 @@ module.exports = {
   renderAddInvForm,
   addNewInv,
   getInventoryJSON,
+  editInv,
+  updateInv,
 };

@@ -9,6 +9,7 @@ async function getClassifications() {
     return data.rows;
   } catch (err) {
     console.error("getClassifications error " + err);
+    return [];
   }
 }
 
@@ -21,6 +22,7 @@ async function getInvByClassId(classification_id) {
     return data.rows;
   } catch (err) {
     console.error("getClassificationsById error " + err);
+    return [];
   }
 }
 
@@ -31,6 +33,7 @@ async function getInvById(id) {
     return data.rows;
   } catch (err) {
     console.error("getInById error " + err);
+    return [];
   }
 }
 
@@ -85,7 +88,44 @@ async function addInventory(
     ]);
     return data.rowCount;
   } catch (error) {
-    console.error("addInventory error " + err);
+    console.error("addInventory error " + error);
+    return 0;
+  }
+}
+
+async function updateInventory(
+  invId,
+  make,
+  model,
+  description,
+  imgPath,
+  imgTnPath,
+  price,
+  year,
+  miles,
+  color,
+  classificationId
+) {
+  try {
+    const queryText =
+      "UPDATE public.inventory SET inv_make = $1, inv_model = $2, inv_description = $3, inv_image = $4, inv_thumbnail = $5, inv_price = $6, inv_year = $7, inv_miles = $8, inv_color = $9, classification_id = $10 WHERE inv_id = $11 RETURNING *";
+    const data = await db.query(queryText, [
+      make,
+      model,
+      description,
+      imgPath,
+      imgTnPath,
+      price,
+      year,
+      miles,
+      color,
+      classificationId,
+      invId,
+    ]);
+    return data.rowCount;
+  } catch (error) {
+    console.error("updateInv error " + error);
+    return 0;
   }
 }
 
@@ -97,4 +137,5 @@ module.exports = {
   addClassification,
   checkExistingClassification,
   addInventory,
+  updateInventory,
 };

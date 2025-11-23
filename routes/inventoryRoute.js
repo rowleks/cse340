@@ -10,6 +10,8 @@ const {
   renderAddInvForm,
   addNewInv,
   getInventoryJSON,
+  editInv,
+  updateInv,
 } = require("../controllers/invController");
 const invValidation = require("../utilities/inventory-validation");
 
@@ -40,6 +42,15 @@ router.post(
 router.get(
   "/getInventory/:classificationId",
   utils.handleErrors(getInventoryJSON)
+);
+
+router.get("/edit/:invId", utils.handleErrors(editInv));
+
+router.post(
+  "/update-inventory",
+  invValidation.addInventoryRules(),
+  invValidation.checkInventoryUpdateData,
+  utils.handleErrors(updateInv)
 );
 
 module.exports = router;

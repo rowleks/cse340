@@ -425,6 +425,11 @@ button[type="submit"] {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  background-color: darkgray;
+}
+
 .signup-link {
   margin: 1rem 0;
   display: flex;
