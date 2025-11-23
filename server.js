@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(utils.checkJWTToken);
+app.use(utils.verifyJWTToken);
 
 // Routes
 app.get("/", utils.handleErrors(renderHome));

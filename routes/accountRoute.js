@@ -10,7 +10,7 @@ const {
 const regValidate = require("../utilities/account-validation");
 const router = express.Router();
 
-router.get("/", utils.handleErrors(renderAcctMgmt));
+router.get("/", utils.checkLoginStatus, utils.handleErrors(renderAcctMgmt));
 
 router.get("/login", utils.handleErrors(renderLogin));
 
@@ -30,3 +30,4 @@ router.post(
   utils.handleErrors(registerAccount)
 );
 module.exports = router;
+

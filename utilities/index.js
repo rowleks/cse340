@@ -138,7 +138,7 @@ async function getClassificationList() {
   return list;
 }
 
-async function checkJWTToken(req, res, next) {
+async function verifyJWTToken(req, res, next) {
   const accessToken = req.cookies.jwt;
   if (accessToken) {
     jwt.verify(accessToken, process.env.JWT_SECRET, (err, payload) => {
@@ -157,11 +157,21 @@ async function checkJWTToken(req, res, next) {
   }
 }
 
+async function checkLoginStatus(req, res, next) {
+  if (res.locals.loggedIn) {
+    next();
+  } else {
+    req.flash("info", "Please log in");
+    return res.redirect("/account/login");
+  }
+}
+
 module.exports = {
   buildNav,
   buildClassGrid,
   handleErrors,
   buildSingleInv,
   getClassificationList,
-  checkJWTToken,
+  verifyJWTToken,
+  checkLoginStatus,
 };
