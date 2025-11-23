@@ -52,9 +52,12 @@ async function renderInvById(req, res) {
 async function renderInvMgmt(_, res) {
   const nav = await utils.buildNav();
 
+  const classificationList = await utils.buildClassSelectList();
+
   res.render("./inventory/manage-classifications", {
     title: "Manage Classifications",
     nav,
+    classificationList,
   });
 }
 
@@ -167,6 +170,17 @@ async function addNewInv(req, res) {
     console.error(err.message);
   }
 }
+
+async function getInventoryJSON(req, res) {
+  const classification_id = parseInt(req.params.classificationId);
+  const invData = await invModel.getInvByClassId(classification_id);
+  if (invData[0]) {
+    return res.json(invData);
+  } else {
+    next(new Error("No data available"));
+  }
+}
+
 module.exports = {
   renderByClassId,
   renderInvById,
@@ -175,4 +189,5 @@ module.exports = {
   renderClassificationForm,
   renderAddInvForm,
   addNewInv,
+  getInventoryJSON,
 };

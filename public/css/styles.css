@@ -476,6 +476,54 @@ label.password {
   transition: all 1s ease-in-out;
 }
 
+.inv-select-wrapper,
+.inv-select {
+  display: grid;
+  gap: 1rem;
+}
+
+.inv-select {
+  max-width: 400px;
+}
+
+.inv-select select {
+  border: 1px solid var(--primary);
+}
+
+tbody tbody tr,
+tbody td {
+  border-collapse: collapse;
+}
+
+thead tr {
+  background: var(--secondary);
+  text-align: left;
+}
+
+th[colspan="2"],
+tr td:not(:first-child) {
+  text-align: center;
+}
+
+th,
+td {
+  padding: 0.75rem;
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--neutral-200);
+}
+
+a.action-link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a.delete {
+  color: var(--error-300);
+}
+
 /******* Media Queries *******/
 
 @media (min-width: 600px) {

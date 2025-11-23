@@ -7,4 +7,16 @@
             <a href="/inv/add-classification">Add new classification</a>
             <a href="/inv/add-inventory">Add new inventory</a>
         </div>
+        <div class="inv-select-wrapper">
+            <div class="inv-select">
+                <h2>Manage Inventory</h2>
+
+                <%- classificationList %>
+            </div>
+
+            <table id="inventory-table"></table>
+            <noscript>JavaScript must be enabled to use this page.</noscript>
+        </div>
+
+        <script src="/js/inventory.js"></script>
 </div>

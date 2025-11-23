@@ -166,6 +166,24 @@ async function checkLoginStatus(req, res, next) {
   }
 }
 
+async function buildClassSelectList() {
+  const classificationlist = await getClassificationList();
+
+  const options = classificationlist.map(
+    (item) => `
+    <option value="${item.classification_id}">${item.classification_name}</option>`
+  );
+
+  const selections = `
+  <label for="classification-list">Choose a classification to see those inventory items</label>
+  <select name="classification_id" id="classification-list">
+  <option value="" disabled selected>Select a classification</option>
+  ${options}
+  </select>`;
+
+  return selections;
+}
+
 module.exports = {
   buildNav,
   buildClassGrid,
@@ -174,4 +192,5 @@ module.exports = {
   getClassificationList,
   verifyJWTToken,
   checkLoginStatus,
+  buildClassSelectList,
 };
