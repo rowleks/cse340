@@ -145,7 +145,7 @@ async function addNewInv(req, res) {
     if (result === 1) {
       req.flash(
         "success",
-        `Added ${inv_make} ${inv_model} to the inventory <a href="/inv/type/${classification_id}" class="redirect-link"> View here</a/`
+        `Added ${inv_make} ${inv_model} to the inventory <a href="/inv/type/${classification_id}" class="redirect-link"> View here</a>`
       );
       res.redirect("/inv");
     } else {
@@ -191,7 +191,7 @@ async function getInventoryJSON(req, res, next) {
   }
 }
 
-async function editInv(req, res) {
+async function renderEditInv(req, res) {
   const inventory_id = parseInt(req.params.invId);
 
   const invData = await invModel.getInvById(inventory_id);
@@ -270,7 +270,7 @@ async function updateInv(req, res) {
     if (updateResult === 1) {
       req.flash(
         "success",
-        `Successfully updated ${inv_make} ${inv_model}<a href="/inv/type/${classification_id}" class="redirect-link"> View here</a/`
+        `Successfully updated ${inv_make} ${inv_model}<a href="/inv/type/${classification_id}" class="redirect-link"> View here</a>`
       );
       res.redirect("/inv");
     } else {
@@ -317,6 +317,72 @@ async function updateInv(req, res) {
   }
 }
 
+async function renderDeleteInv(req, res) {
+  const inventory_id = parseInt(req.params.invId);
+
+  const invData = await invModel.getInvById(inventory_id);
+
+  const { inv_make, inv_model, inv_price, inv_year, inv_id } = invData[0];
+
+  const title = `Delete ${inv_make} ${inv_model}`;
+
+  const nav = await utils.buildNav();
+
+  res.render("inventory/delete-inventory", {
+    title,
+    nav,
+    errors: null,
+    inv_make,
+    inv_model,
+    inv_price,
+    inv_year,
+    inv_id,
+  });
+}
+
+async function deleteInv(req, res) {
+  const { inv_id, inv_make, inv_model, inv_price, inv_year } = req.body;
+  const nav = await utils.buildNav();
+  const title = `Delete ${inv_make} ${inv_model}`;
+
+  try {
+    const deleteResult = await invModel.deleteInventory(inv_id);
+
+    if (deleteResult === 1) {
+      req.flash(
+        "info",
+        `Successfully Deleted ${inv_make} ${inv_model} from the inventory`
+      );
+      res.redirect("/inv");
+    } else {
+      req.flash("error", "Sorry, something went wrong, please try again");
+      res.status(501).res.render("inventory/delete-inventory", {
+        title,
+        nav,
+        errors: null,
+        inv_make,
+        inv_model,
+        inv_price,
+        inv_year,
+        inv_id,
+      });
+    }
+  } catch (err) {
+    console.error("Error updating inventory:", err.message);
+    req.flash("error", "Sorry, something went wrong, please try again");
+    res.status(500).res.render("inventory/delete-inventory", {
+      title,
+      nav,
+      errors: null,
+      inv_make,
+      inv_model,
+      inv_price,
+      inv_year,
+      inv_id,
+    });
+  }
+}
+
 module.exports = {
   renderByClassId,
   renderInvById,
@@ -326,6 +392,8 @@ module.exports = {
   renderAddInvForm,
   addNewInv,
   getInventoryJSON,
-  editInv,
+  renderEditInv,
   updateInv,
+  renderDeleteInv,
+  deleteInv,
 };

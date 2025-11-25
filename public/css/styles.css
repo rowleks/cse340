@@ -62,6 +62,18 @@ em {
   font-size: smaller;
 }
 
+span.error {
+  margin-inline: auto;
+}
+
+span.error em {
+  color: var(--error-500);
+  padding: 0.5rem;
+  background-color: white;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
 #top-header {
   display: flex;
   align-items: center;
@@ -414,7 +426,8 @@ input:valid:focus {
   background-color: var(--success-100);
 }
 
-button[type="submit"] {
+button[type="submit"],
+.btn {
   background-color: white;
   color: black;
   padding: 0.5em 0.75rem;
@@ -423,6 +436,11 @@ button[type="submit"] {
   border: none;
   margin-inline: auto;
   cursor: pointer;
+}
+
+.btn.delete {
+  background-color: var(--error-300);
+  color: white;
 }
 
 button:disabled {
@@ -527,6 +545,13 @@ a.action-link {
 
 a.delete {
   color: var(--error-300);
+}
+
+.action-confirm {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: row;
 }
 
 /******* Media Queries *******/

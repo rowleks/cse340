@@ -129,6 +129,18 @@ async function updateInventory(
   }
 }
 
+async function deleteInventory(invId) {
+  try {
+    const queryText = "DELETE FROM public.inventory WHERE inv_id = $1";
+    const data = await db.query(queryText, [invId]);
+    console.log(data);
+    return data.rowCount;
+  } catch (error) {
+    console.error("deleteInventory error " + error);
+    return 0;
+  }
+}
+
 //export the models
 module.exports = {
   getClassifications,
@@ -138,4 +150,5 @@ module.exports = {
   checkExistingClassification,
   addInventory,
   updateInventory,
+  deleteInventory,
 };
