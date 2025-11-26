@@ -42,7 +42,7 @@ router.post(
 );
 
 router.get(
-  "/getInventory/:classificationId",
+  "/get-inventory/:classificationId",
   utils.handleErrors(getInventoryJSON)
 );
 

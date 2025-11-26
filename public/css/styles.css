@@ -46,6 +46,45 @@ h6 {
   font-family: "Playfair Display", serif;
 }
 
+dialog {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+  width: 26rem;
+  padding: 2rem 1.2rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+::backdrop {
+  background-color: rgb(0 0 0 / 50%);
+  backdrop-filter: blur(1px);
+}
+
+dialog form {
+  display: contents;
+}
+
+dialog form .dialog-warnings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  color: black;
+  margin-bottom: 2rem;
+}
+
+.confirm-msg {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+span.inv-name {
+  color: var(--primary);
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -430,7 +469,7 @@ button[type="submit"],
 .btn {
   background-color: white;
   color: black;
-  padding: 0.5em 0.75rem;
+  padding: 0.5em 0.75em;
   border-radius: 50px;
   width: fit-content;
   border: none;
@@ -438,9 +477,20 @@ button[type="submit"],
   cursor: pointer;
 }
 
+.btn {
+  padding: 0.75em 1.2em;
+}
+
 .btn.delete {
   background-color: var(--error-300);
   color: white;
+  margin: 0;
+}
+
+.btn.cancel {
+  background-color: var(--neutral-200);
+  color: black;
+  margin: 0;
 }
 
 button:disabled {
@@ -547,11 +597,13 @@ a.delete {
   color: var(--error-300);
 }
 
-.action-confirm {
+.action-confirm,
+.dialog-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 2rem;
   flex-direction: row;
+  justify-content: center;
 }
 
 /******* Media Queries *******/

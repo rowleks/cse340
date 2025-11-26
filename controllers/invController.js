@@ -341,9 +341,7 @@ async function renderDeleteInv(req, res) {
 }
 
 async function deleteInv(req, res) {
-  const { inv_id, inv_make, inv_model, inv_price, inv_year } = req.body;
-  const nav = await utils.buildNav();
-  const title = `Delete ${inv_make} ${inv_model}`;
+  const { inv_id, inv_make, inv_model } = req.body;
 
   try {
     const deleteResult = await invModel.deleteInventory(inv_id);
@@ -356,30 +354,12 @@ async function deleteInv(req, res) {
       res.redirect("/inv");
     } else {
       req.flash("error", "Sorry, something went wrong, please try again");
-      res.status(501).res.render("inventory/delete-inventory", {
-        title,
-        nav,
-        errors: null,
-        inv_make,
-        inv_model,
-        inv_price,
-        inv_year,
-        inv_id,
-      });
+      res.redirect("/inv");
     }
   } catch (err) {
     console.error("Error updating inventory:", err.message);
     req.flash("error", "Sorry, something went wrong, please try again");
-    res.status(500).res.render("inventory/delete-inventory", {
-      title,
-      nav,
-      errors: null,
-      inv_make,
-      inv_model,
-      inv_price,
-      inv_year,
-      inv_id,
-    });
+    res.redirect("/inv");
   }
 }
 
