@@ -1,5 +1,6 @@
-//Build HTML of navlinks
 const invModel = require("../models/inventory-model");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 async function buildNav(path, classId) {
   // Wayfinding helper function
@@ -137,10 +138,80 @@ async function getClassificationList() {
   return list;
 }
 
+// JWT Middlewares
+
+async function verifyJWTToken(req, res, next) {
+  const accessToken = req.cookies.jwt;
+  if (accessToken) {
+    jwt.verify(accessToken, process.env.JWT_SECRET, (err, payload) => {
+      if (err) {
+        req.flash("info", "Please log in");
+        res.clearCookie("jwt");
+        return res.status(403).redirect("/account/login");
+      }
+
+      res.locals.accountData = payload;
+      res.locals.loggedIn = true;
+      next();
+    });
+  } else {
+    next();
+  }
+}
+
+async function checkLoginStatus(req, res, next) {
+  if (res.locals.loggedIn) {
+    next();
+  } else {
+    req.flash("info", "Please log in");
+    return res.redirect("/account/login");
+  }
+}
+
+async function checkLoginAuthZ(req, res, next) {
+  if (res.locals.accountData) {
+    const { account_type } = res.locals.accountData;
+    if (account_type === "Client") {
+      req.flash(
+        "info",
+        "You are not authorized to view that page, please login with a priviledged account"
+      );
+      return res.redirect("/account/");
+    } else {
+      next();
+    }
+  } else {
+    req.flash("info", "Please log in");
+    return res.redirect("/account/login");
+  }
+}
+
+async function buildClassSelectList() {
+  const classificationlist = await getClassificationList();
+
+  const options = classificationlist.map(
+    (item) => `
+    <option value="${item.classification_id}">${item.classification_name}</option>`
+  );
+
+  const selections = `
+  <label for="classification-list">Choose a classification to see those inventory items</label>
+  <select name="classification_id" id="classification-list">
+  <option value="" disabled selected>Select a classification</option>
+  ${options}
+  </select>`;
+
+  return selections;
+}
+
 module.exports = {
   buildNav,
   buildClassGrid,
   handleErrors,
   buildSingleInv,
   getClassificationList,
+  verifyJWTToken,
+  checkLoginStatus,
+  buildClassSelectList,
+  checkLoginAuthZ,
 };

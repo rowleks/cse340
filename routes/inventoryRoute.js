@@ -9,10 +9,15 @@ const {
   renderClassificationForm,
   renderAddInvForm,
   addNewInv,
+  getInventoryJSON,
+  updateInv,
+  renderEditInv,
+  renderDeleteInv,
+  deleteInv,
 } = require("../controllers/invController");
 const invValidation = require("../utilities/inventory-validation");
 
-router.get("/", utils.handleErrors(renderInvMgmt));
+router.get("/", utils.checkLoginStatus, utils.checkLoginAuthZ, utils.handleErrors(renderInvMgmt));
 
 router.get("/type/:classificationId", utils.handleErrors(renderByClassId));
 
@@ -35,5 +40,22 @@ router.post(
   invValidation.checkInventoryData,
   utils.handleErrors(addNewInv)
 );
+
+router.get(
+  "/getInventory/:classificationId",
+  utils.handleErrors(getInventoryJSON)
+);
+
+router.get("/edit/:invId", utils.handleErrors(renderEditInv));
+
+router.post(
+  "/update-inventory",
+  invValidation.addInventoryRules(),
+  invValidation.checkInventoryUpdateData,
+  utils.handleErrors(updateInv)
+);
+
+router.get("/delete/:invId", utils.handleErrors(renderDeleteInv));
+router.post("/delete-inventory", utils.handleErrors(deleteInv));
 
 module.exports = router;

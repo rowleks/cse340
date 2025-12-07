@@ -1,0 +1,77 @@
+<div>
+  <h1>
+    <%= title %>
+  </h1>
+  <%- messages() %>
+
+    <div>
+      <% if (errors) { %>
+        <ul class="error">
+          <% errors.array().forEach(error=> { %>
+            <li>
+              <%= error.msg %>
+            </li>
+            <% }) %>
+        </ul>
+        <% } %>
+    </div>
+
+    <div class="form-container">
+      <h2>Update Account Information</h2>
+      <form class="login-form" action="/account/update-info" method="post" id="update-form">
+        <span><em>All fields are required.</em></span>
+        <div>
+          <label for="account_firstname">First name:</label>
+          <input type="text" name="account_firstname" id="account_firstname" required pattern="[A-Za-z]{3,}"
+            value="<%= formData.account_firstname %>" />
+        </div>
+        <div>
+          <label for="account_lastname">Last name:</label>
+          <input type="text" name="account_lastname" id="account_lastname" required pattern="[A-Za-z]{3,}"
+            value="<%= formData.account_lastname %>" />
+        </div>
+        <div>
+          <label for="email">Email address:</label>
+          <input type="email" name="account_email" id="email" placeholder="Enter a valid email address" required
+            value="<%= formData.account_email %>" />
+        </div>
+        <input type="hidden" name="account_id" value="<%= formData.account_id %>" />
+        <button type="submit" id="update-button" disabled>Update Account</button>
+      </form>
+      <script src="/js/invUpdate.js"></script>
+    </div>
+
+    <div class="form-container">
+      <h2>Change Password</h2>
+
+      <form class="login-form" action="/account/change-password" method="post">
+        <div class="update-container">
+          <span><em>Entering a password will change your current password.</em></span>
+
+          <div>
+            <span>Password:</span>
+            <label for="password" class="password">
+              <input type="password" name="account_password" id="password" required
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+                placeholder="Enter new password" />
+
+              <span class="eye-container">
+                <img src="/images/icons/eye-close.svg" alt="hide password" class="hide" width="24" height="24"
+                  id="hide-password" title="Hide password" />
+                <img src="/images/icons/eye-open.svg" alt="show password" class="" width="24" height="24"
+                  id="show-password" title="Show password" />
+              </span>
+            </label>
+          </div>
+
+          <span><em>Passwords must be at least 12 characters and contain at least 1
+              number, 1 capital letter and 1 special character.</em></span>
+        </div>
+
+        <input type="hidden" name="account_id" value="<%= formData.account_id %>" />
+        <button type="submit" id="change-password-btn">Change Password</button>
+      </form>
+    </div>
+
+    <script src="/js/accountForm.js"></script>
+</div>

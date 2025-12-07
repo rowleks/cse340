@@ -1,0 +1,42 @@
+<div>
+    <h1>
+        <%= title %>
+    </h1>
+    <%- messages() %>
+
+        <div class="form-container">
+            <form action="/inv/delete-inventory" method="post" id="update-form">
+                <span class="error"><em>Confirm Deletion? - This action is irreversible</em></span>
+
+                <div>
+                    <label for="make">Make</label>
+                    <input readonly type="text" name="inv_make" id="make" required pattern="[A-Za-z ]{3,}"
+                        placeholder="Min of 3 characters" value="<%= locals.inv_make || '' %>">
+                </div>
+                <div>
+                    <label for="model">Model</label>
+                    <input readonly type="text" name="inv_model" id="model" required pattern="[A-Za-z ]{3,}"
+                        placeholder="Min of 3 characters" value="<%= locals.inv_model || '' %>">
+                </div>
+
+                <div>
+                    <label for="price">Price</label>
+                    <input readonly type="text" name="inv_price" id="price" required placeholder="Decimal or Integer"
+                        pattern="^\d+(\.\d{2})?$" value="<%= locals.inv_price || '' %>">
+                </div>
+                <div>
+                    <label for="year">Year</label>
+                    <input readonly type="number" name="inv_year" id="year" required placeholder="YYYY"
+                        pattern="^\d{4}$" value="<%= locals.inv_year || '' %>">
+                </div>
+                <input type="hidden" name="inv_id" value="<%= locals.inv_id || '' %>">
+
+                <div class="action-confirm">
+                    <button class="delete btn" type="submit" id="update-button">Delete Vehicle</button>
+
+                    <a class="cancel btn" href="/inv">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+</div>

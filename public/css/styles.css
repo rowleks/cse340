@@ -62,14 +62,35 @@ em {
   font-size: smaller;
 }
 
+span.error {
+  margin-inline: auto;
+}
+
+span.error em {
+  color: var(--error-500);
+  padding: 0.5rem;
+  background-color: white;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
 #top-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-#top-header #tools a:hover {
+#tools {
+  display: flex;
+  gap: 1rem;
+}
+
+#tools a:hover {
   color: var(--primary);
+}
+
+#tools a.logout-link:hover {
+  color: var(--error-300);
 }
 
 .site-name {
@@ -414,7 +435,8 @@ input:valid:focus {
   background-color: var(--success-100);
 }
 
-button[type="submit"] {
+button[type="submit"],
+.btn {
   background-color: white;
   color: black;
   padding: 0.5em 0.75rem;
@@ -423,6 +445,16 @@ button[type="submit"] {
   border: none;
   margin-inline: auto;
   cursor: pointer;
+}
+
+.btn.delete {
+  background-color: var(--error-300);
+  color: white;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: darkgray;
 }
 
 .signup-link {
@@ -474,6 +506,66 @@ label.password {
   text-underline-offset: 3px;
   color: var(--accent);
   transition: all 1s ease-in-out;
+}
+
+.inv-select-wrapper,
+.inv-select {
+  display: grid;
+  gap: 1rem;
+}
+
+.inv-select {
+  max-width: 400px;
+}
+
+.inv-select select {
+  border: 1px solid var(--primary);
+}
+
+tbody tbody tr,
+tbody td {
+  border-collapse: collapse;
+}
+
+thead tr {
+  background: var(--secondary);
+  text-align: left;
+}
+
+th[colspan="2"],
+tr td:not(:first-child) {
+  text-align: center;
+}
+
+th,
+td {
+  padding: 0.75rem;
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--neutral-200);
+}
+
+a.action-link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a.delete {
+  color: var(--error-300);
+}
+
+.action-confirm {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: row;
+}
+/******* Account Update Queries *******/
+.update-container {
+  display: grid;
+  gap: 1rem;
 }
 
 /******* Media Queries *******/
