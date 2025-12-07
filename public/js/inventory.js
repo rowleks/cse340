@@ -44,7 +44,7 @@ function buildInvList(data) {
             <td><a href="/inv/edit/${item.inv_id}" class="action-link edit" title="Click to update">Modify</a></td>
             <td><a href="/inv/delete/${item.inv_id}" class="action-link delete" title="Click to delete">Delete</a></td>
           </tr>
-        `
+        `,
         )
         .join("")}
       </tbody>`;

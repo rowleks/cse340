@@ -9,6 +9,7 @@ const inventoryRoute = require("./routes/inventoryRoute");
 
 const errorRoute = require("./routes/errorRoute");
 const accountRoute = require("./routes/accountRoute");
+const reviewRoute = require("./routes/reviewRoute");
 const utils = require("./utilities");
 
 const pool = require("./database");
@@ -39,7 +40,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     name: "sessionId",
-  })
+  }),
 );
 
 app.use(connectFlash);
@@ -59,6 +60,7 @@ app.get("/", utils.handleErrors(renderHome));
 app.use("/inv", inventoryRoute);
 app.use("/error", errorRoute);
 app.use("/account", accountRoute);
+app.use("/review", reviewRoute);
 
 // 404 Route
 app.use((_, __, next) => {

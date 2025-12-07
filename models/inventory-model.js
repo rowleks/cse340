@@ -4,7 +4,7 @@ const db = require("../database/");
 async function getClassifications() {
   try {
     const data = await db.query(
-      "SELECT * FROM classification ORDER BY classification_name"
+      "SELECT * FROM classification ORDER BY classification_name",
     );
     return data.rows;
   } catch (err) {
@@ -69,7 +69,7 @@ async function addInventory(
   price,
   year,
   miles,
-  color
+  color,
 ) {
   try {
     const queryText =
@@ -104,7 +104,7 @@ async function updateInventory(
   year,
   miles,
   color,
-  classificationId
+  classificationId,
 ) {
   try {
     const queryText =

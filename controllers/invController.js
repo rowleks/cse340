@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model");
+const reviewModel = require("../models/review-model");
 const utils = require("../utilities/");
 
 // Render the inventory view (grouped by classification)
@@ -32,6 +33,11 @@ async function renderInvById(req, res) {
 
   const content = utils.buildSingleInv(singleInvData);
 
+  // Get reviews
+  const reviews = await reviewModel.getReviewsByInvId(inv_id);
+  const loggedIn = res.locals.loggedIn;
+  const reviewsHTML = utils.buildReviews(reviews, inv_id, loggedIn);
+
   let title = "";
 
   if (singleInvData.length > 0) {
@@ -46,6 +52,7 @@ async function renderInvById(req, res) {
     title,
     nav,
     content,
+    reviews: reviewsHTML,
   });
 }
 
@@ -137,7 +144,7 @@ async function addNewInv(req, res) {
       inv_price,
       inv_year,
       inv_miles,
-      inv_color
+      inv_color,
     );
 
     const classifications = await utils.getClassificationList();
@@ -145,7 +152,7 @@ async function addNewInv(req, res) {
     if (result === 1) {
       req.flash(
         "success",
-        `Added ${inv_make} ${inv_model} to the inventory <a href="/inv/type/${classification_id}" class="redirect-link"> View here</a>`
+        `Added ${inv_make} ${inv_model} to the inventory <a href="/inv/type/${classification_id}" class="redirect-link"> View here</a>`,
       );
       res.redirect("/inv");
     } else {
@@ -261,7 +268,7 @@ async function updateInv(req, res) {
       inv_year,
       inv_miles,
       inv_color,
-      classification_id
+      classification_id,
     );
 
     const classifications = await utils.getClassificationList();
@@ -270,7 +277,7 @@ async function updateInv(req, res) {
     if (updateResult === 1) {
       req.flash(
         "success",
-        `Successfully updated ${inv_make} ${inv_model}<a href="/inv/type/${classification_id}" class="redirect-link"> View here</a>`
+        `Successfully updated ${inv_make} ${inv_model}<a href="/inv/type/${classification_id}" class="redirect-link"> View here</a>`,
       );
       res.redirect("/inv");
     } else {
@@ -351,7 +358,7 @@ async function deleteInv(req, res) {
     if (deleteResult === 1) {
       req.flash(
         "info",
-        `Successfully Deleted ${inv_make} ${inv_model} from the inventory`
+        `Successfully Deleted ${inv_make} ${inv_model} from the inventory`,
       );
       res.redirect("/inv");
     } else {

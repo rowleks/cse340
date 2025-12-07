@@ -25,35 +25,35 @@ router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  utils.handleErrors(accountLogin)
+  utils.handleErrors(accountLogin),
 );
 
 router.post(
   "/register",
   regValidate.registrationRules(),
   regValidate.checkRegData,
-  utils.handleErrors(registerAccount)
+  utils.handleErrors(registerAccount),
 );
 
 // Account update routes
 router.get(
   "/update/:account_id",
   utils.checkLoginStatus,
-  utils.handleErrors(renderUpdateAccount)
+  utils.handleErrors(renderUpdateAccount),
 );
 
 router.post(
   "/update-info",
   regValidate.updateAccountRules(),
   regValidate.checkUpdateData,
-  utils.handleErrors(updateAccountInfo)
+  utils.handleErrors(updateAccountInfo),
 );
 
 router.post(
   "/change-password",
   regValidate.changePasswordRules(),
   regValidate.checkPasswordData,
-  utils.handleErrors(changePassword)
+  utils.handleErrors(changePassword),
 );
 
 module.exports = router;

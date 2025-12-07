@@ -73,13 +73,13 @@ async function registerAccount(req, res) {
     account_firstname,
     account_lastname,
     account_email,
-    hashedPassword
+    hashedPassword,
   );
 
   if (regResult) {
     req.flash(
       "success",
-      `Congratulations! You're registered ${account_firstname}. Please Login`
+      `Congratulations! You're registered ${account_firstname}. Please Login`,
     );
     res.status(201).render("account/login", {
       title: "Login",
@@ -109,7 +109,7 @@ async function accountLogin(req, res) {
   if (!accountData) {
     req.flash(
       "error",
-      "Incorrect username or password, please check your credentials and try again"
+      "Incorrect username or password, please check your credentials and try again",
     );
     res.status(400).render("account/login", {
       title: "Login",
@@ -123,7 +123,7 @@ async function accountLogin(req, res) {
   try {
     const validUser = await bcrypt.compare(
       account_password,
-      accountData.account_password
+      accountData.account_password,
     );
     if (validUser) {
       delete accountData.account_password;
@@ -159,7 +159,7 @@ async function accountLogin(req, res) {
     } else {
       req.flash(
         "error",
-        "Incorrect username or password, please check your credentials and try again"
+        "Incorrect username or password, please check your credentials and try again",
       );
       res.status(400).render("account/login", {
         title: "Login",
@@ -231,7 +231,7 @@ async function updateAccountInfo(req, res) {
       account_id,
       account_firstname,
       account_lastname,
-      account_email
+      account_email,
     );
 
     if (updatedAccount instanceof Error) {
@@ -279,7 +279,7 @@ async function changePassword(req, res) {
 
     const result = await accountModel.updatePassword(
       account_id,
-      hashedPassword
+      hashedPassword,
     );
 
     if (result instanceof Error) {

@@ -23,9 +23,8 @@ function registrationRules() {
       .normalizeEmail()
       .withMessage("A valid email is required.")
       .custom(async (account_email) => {
-        const emailExists = await accountModel.checkExistingEmail(
-          account_email
-        );
+        const emailExists =
+          await accountModel.checkExistingEmail(account_email);
         if (emailExists) {
           throw new Error("Email exists. Please log in or use different email");
         }
@@ -41,7 +40,7 @@ function registrationRules() {
         minSymbols: 1,
       })
       .withMessage(
-        "Password must be at least 12 characters long and include 1 uppercase, 1 lowercase, 1 number, and 1 symbol."
+        "Password must be at least 12 characters long and include 1 uppercase, 1 lowercase, 1 number, and 1 symbol.",
       ),
   ];
 }
@@ -66,12 +65,11 @@ function loginRules() {
       .normalizeEmail()
       .withMessage("A valid email is required.")
       .custom(async (account_email) => {
-        const emailExists = await accountModel.checkExistingEmail(
-          account_email
-        );
+        const emailExists =
+          await accountModel.checkExistingEmail(account_email);
         if (!emailExists) {
           throw new Error(
-            "You currently do not have an account. Please sign up"
+            "You currently do not have an account. Please sign up",
           );
         }
       }),
@@ -134,11 +132,10 @@ function updateAccountRules() {
       .normalizeEmail()
       .withMessage("A valid email is required.")
       .custom(async (account_email, { req }) => {
-        const emailExists = await accountModel.checkExistingEmail(
-          account_email
-        );
+        const emailExists =
+          await accountModel.checkExistingEmail(account_email);
         const currentAccount = await accountModel.getAccountById(
-          req.body.account_id
+          req.body.account_id,
         );
 
         if (emailExists && currentAccount.account_email !== account_email) {
@@ -160,7 +157,7 @@ function changePasswordRules() {
         minSymbols: 1,
       })
       .withMessage(
-        "Password must be at least 12 characters long and include 1 uppercase, 1 lowercase, 1 number, and 1 symbol."
+        "Password must be at least 12 characters long and include 1 uppercase, 1 lowercase, 1 number, and 1 symbol.",
       ),
   ];
 }

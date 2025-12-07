@@ -12,12 +12,11 @@ function addClassificationRules() {
       .isAlpha()
       .withMessage("Classification name must only contain letters.")
       .custom(async (classification_name) => {
-        const classificationExists = await invModel.checkExistingClassification(
-          classification_name
-        );
+        const classificationExists =
+          await invModel.checkExistingClassification(classification_name);
         if (classificationExists) {
           throw new Error(
-            "Classification already exists. Please use a different name"
+            "Classification already exists. Please use a different name",
           );
         }
       }),

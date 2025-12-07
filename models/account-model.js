@@ -31,7 +31,7 @@ async function getAccountByEmail(email) {
   try {
     const result = await db.query(
       "SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1",
-      [email]
+      [email],
     );
     return result.rows[0];
   } catch (error) {
@@ -43,7 +43,7 @@ async function getAccountById(accountId) {
   try {
     const result = await db.query(
       "SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_id = $1",
-      [accountId]
+      [accountId],
     );
     return result.rows[0];
   } catch (error) {
@@ -60,7 +60,7 @@ async function updateAccount(accountId, firstName, lastName, email) {
            account_email = $3 
        WHERE account_id = $4 
        RETURNING account_id, account_firstname, account_lastname, account_email, account_type`,
-      [firstName, lastName, email, accountId]
+      [firstName, lastName, email, accountId],
     );
     return result.rows[0];
   } catch (error) {
@@ -75,7 +75,7 @@ async function updatePassword(accountId, hashedPassword) {
        SET account_password = $1 
        WHERE account_id = $2 
        RETURNING account_id`,
-      [hashedPassword, accountId]
+      [hashedPassword, accountId],
     );
     return result.rows[0];
   } catch (error) {

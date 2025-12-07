@@ -3,7 +3,6 @@ const hidePword = document.getElementById("hide-password");
 const showPword = document.getElementById("show-password");
 const eyeContainer = document.querySelector(".eye-container");
 
-
 if (eyeContainer) {
   eyeContainer.addEventListener("click", (e) => {
     e.preventDefault();

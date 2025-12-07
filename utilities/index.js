@@ -133,6 +133,55 @@ function buildSingleInv(data) {
   return grid;
 }
 
+/* **************************************
+ * Build the reviews HTML
+ * ************************************ */
+function buildReviews(reviews, inv_id, loggedIn) {
+  const reviewForm = loggedIn
+    ? `
+      <form action="/review/add" method="POST" class="review-form">
+        <input type="hidden" name="inv_id" value="${inv_id}">
+        <label for="review_text">Leave a Review:</label>
+        <textarea id="review_text" name="review_text" required rows="8"></textarea>
+        <button type="submit" class="btn">Submit Review</button>
+      </form>
+    `
+    : '<p>Please <a href="/account/login" class="redirect-link">log in</a> to leave a review.</p>';
+
+  const reviewsList =
+    reviews.length > 0
+      ? `<ul class="reviews-list">
+          ${reviews
+            .map((review) => {
+              const date = new Date(review.review_date).toLocaleDateString(
+                "en-US"
+              );
+              return `
+            <li>
+              <p><strong>${
+                review.account_firstname
+              } ${review.account_lastname.charAt(
+                0
+              )}.</strong> <span class="review-date">(${date})</span></p>
+              <p>${review.review_text}</p>
+            </li>
+          `;
+            })
+            .join("")}
+        </ul>`
+      : "<p>No reviews yet. Be the first to write one!</p>";
+
+  return `
+    <div class="reviews-wrapper">
+    <h3>Customer Reviews</h3>
+    <div class="reviews-container">
+    ${reviewForm}
+    ${reviewsList}
+    </div>
+    </div>
+  `;
+}
+
 async function getClassificationList() {
   const list = await invModel.getClassifications();
   return list;
@@ -214,4 +263,5 @@ module.exports = {
   checkLoginStatus,
   buildClassSelectList,
   checkLoginAuthZ,
+  buildReviews,
 };

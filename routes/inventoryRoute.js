@@ -17,7 +17,12 @@ const {
 } = require("../controllers/invController");
 const invValidation = require("../utilities/inventory-validation");
 
-router.get("/", utils.checkLoginStatus, utils.checkLoginAuthZ, utils.handleErrors(renderInvMgmt));
+router.get(
+  "/",
+  utils.checkLoginStatus,
+  utils.checkLoginAuthZ,
+  utils.handleErrors(renderInvMgmt),
+);
 
 router.get("/type/:classificationId", utils.handleErrors(renderByClassId));
 
@@ -29,7 +34,7 @@ router.post(
   "/add-classification",
   invValidation.addClassificationRules(),
   invValidation.checkClassificationData,
-  utils.handleErrors(addNewClassification)
+  utils.handleErrors(addNewClassification),
 );
 
 router.get("/add-inventory", utils.handleErrors(renderAddInvForm));
@@ -38,12 +43,12 @@ router.post(
   "/add-inventory",
   invValidation.addInventoryRules(),
   invValidation.checkInventoryData,
-  utils.handleErrors(addNewInv)
+  utils.handleErrors(addNewInv),
 );
 
 router.get(
   "/getInventory/:classificationId",
-  utils.handleErrors(getInventoryJSON)
+  utils.handleErrors(getInventoryJSON),
 );
 
 router.get("/edit/:invId", utils.handleErrors(renderEditInv));
@@ -52,7 +57,7 @@ router.post(
   "/update-inventory",
   invValidation.addInventoryRules(),
   invValidation.checkInventoryUpdateData,
-  utils.handleErrors(updateInv)
+  utils.handleErrors(updateInv),
 );
 
 router.get("/delete/:invId", utils.handleErrors(renderDeleteInv));
