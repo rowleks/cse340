@@ -562,6 +562,11 @@ a.delete {
   gap: 0.5rem;
   flex-direction: row;
 }
+/******* Account Update Queries *******/
+.update-container {
+  display: grid;
+  gap: 1rem;
+}
 
 /******* Media Queries *******/
 

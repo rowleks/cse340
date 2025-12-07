@@ -180,6 +180,121 @@ async function accountLogout(_, res) {
   res.redirect("/");
 }
 
+// Render the account update view
+async function renderUpdateAccount(req, res) {
+  try {
+    const accountId = req.params.account_id;
+    const accountData = await accountModel.getAccountById(accountId);
+
+    if (!accountData || accountData instanceof Error) {
+      req.flash("error", "Account not found");
+      return res.redirect("/account/");
+    }
+
+    // Ensure the logged-in user can only update their own account
+    if (res.locals.accountData.account_id !== parseInt(accountId)) {
+      req.flash("error", "You are not authorized to update this account");
+      return res.redirect("/account/");
+    }
+
+    const nav = await utils.buildNav();
+
+    res.render("account/update", {
+      title: "Update Account",
+      nav,
+      errors: null,
+      formData: {
+        account_id: accountData.account_id,
+        account_firstname: accountData.account_firstname,
+        account_lastname: accountData.account_lastname,
+        account_email: accountData.account_email,
+      },
+    });
+  } catch (error) {
+    req.flash("error", "Error loading account update page");
+    res.redirect("/account/");
+  }
+}
+
+// Update account information
+async function updateAccountInfo(req, res) {
+  try {
+    const { account_id, account_firstname, account_lastname, account_email } =
+      req.body;
+
+    if (res.locals.accountData.account_id !== parseInt(account_id)) {
+      req.flash("error", "You are not authorized to update this account");
+      return res.redirect("/account/");
+    }
+
+    const updatedAccount = await accountModel.updateAccount(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    );
+
+    if (updatedAccount instanceof Error) {
+      throw updatedAccount;
+    }
+
+    const accountData = await accountModel.getAccountById(account_id);
+    delete accountData.account_password;
+    const accessToken = jwt.sign(accountData, process.env.JWT_SECRET, {
+      expiresIn: "1hr",
+    });
+    if (process.env.NODE_ENV === "development") {
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        maxAge: 3600 * 1000,
+      });
+    } else {
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600 * 1000,
+      });
+    }
+
+    req.flash("success", "Account information updated successfully");
+    res.redirect("/account/");
+  } catch (error) {
+    console.error("Update account error:", error);
+    req.flash("error", "Error updating account information");
+    res.redirect(`/account/update/${req.body.account_id}`);
+  }
+}
+
+// Change account password
+async function changePassword(req, res) {
+  try {
+    const { account_id, account_password } = req.body;
+
+    if (res.locals.accountData.account_id !== parseInt(account_id)) {
+      req.flash("error", "You are not authorized to update this account");
+      return res.redirect("/account/");
+    }
+
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+
+    const result = await accountModel.updatePassword(
+      account_id,
+      hashedPassword
+    );
+
+    if (result instanceof Error) {
+      throw result;
+    }
+
+    req.flash("success", "Password updated successfully");
+    res.redirect(`/account/update/${account_id}`);
+  } catch (error) {
+    console.error("Change password error:", error);
+    req.flash("error", "Error changing password");
+    res.redirect(`/account/update/${req.body.account_id}`);
+  }
+}
+
 module.exports = {
   renderLogin,
   renderSignUp,
@@ -187,4 +302,7 @@ module.exports = {
   accountLogin,
   renderAcctMgmt,
   accountLogout,
+  renderUpdateAccount,
+  updateAccountInfo,
+  changePassword,
 };

@@ -7,6 +7,9 @@ const {
   accountLogin,
   renderAcctMgmt,
   accountLogout,
+  renderUpdateAccount,
+  updateAccountInfo,
+  changePassword,
 } = require("../controllers/accountController");
 const regValidate = require("../utilities/account-validation");
 const router = express.Router();
@@ -31,4 +34,26 @@ router.post(
   regValidate.checkRegData,
   utils.handleErrors(registerAccount)
 );
+
+// Account update routes
+router.get(
+  "/update/:account_id",
+  utils.checkLoginStatus,
+  utils.handleErrors(renderUpdateAccount)
+);
+
+router.post(
+  "/update-info",
+  regValidate.updateAccountRules(),
+  regValidate.checkUpdateData,
+  utils.handleErrors(updateAccountInfo)
+);
+
+router.post(
+  "/change-password",
+  regValidate.changePasswordRules(),
+  regValidate.checkPasswordData,
+  utils.handleErrors(changePassword)
+);
+
 module.exports = router;
