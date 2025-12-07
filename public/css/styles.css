@@ -80,8 +80,17 @@ span.error em {
   justify-content: space-between;
 }
 
-#top-header #tools a:hover {
+#tools {
+  display: flex;
+  gap: 1rem;
+}
+
+#tools a:hover {
   color: var(--primary);
+}
+
+#tools a.logout-link:hover {
+  color: var(--error-300);
 }
 
 .site-name {

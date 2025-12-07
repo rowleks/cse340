@@ -138,12 +138,14 @@ async function getClassificationList() {
   return list;
 }
 
+// JWT Middlewares
+
 async function verifyJWTToken(req, res, next) {
   const accessToken = req.cookies.jwt;
   if (accessToken) {
     jwt.verify(accessToken, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
-        req.flash("Please log in");
+        req.flash("info", "Please log in");
         res.clearCookie("jwt");
         return res.status(403).redirect("/account/login");
       }
@@ -160,6 +162,24 @@ async function verifyJWTToken(req, res, next) {
 async function checkLoginStatus(req, res, next) {
   if (res.locals.loggedIn) {
     next();
+  } else {
+    req.flash("info", "Please log in");
+    return res.redirect("/account/login");
+  }
+}
+
+async function checkLoginAuthZ(req, res, next) {
+  if (res.locals.accountData) {
+    const { account_type } = res.locals.accountData;
+    if (account_type === "Client") {
+      req.flash(
+        "info",
+        "You are not authorized to view that page, please login with a priviledged account"
+      );
+      return res.redirect("/account/");
+    } else {
+      next();
+    }
   } else {
     req.flash("info", "Please log in");
     return res.redirect("/account/login");
@@ -193,4 +213,5 @@ module.exports = {
   verifyJWTToken,
   checkLoginStatus,
   buildClassSelectList,
+  checkLoginAuthZ,
 };

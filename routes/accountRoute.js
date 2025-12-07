@@ -6,6 +6,7 @@ const {
   registerAccount,
   accountLogin,
   renderAcctMgmt,
+  accountLogout,
 } = require("../controllers/accountController");
 const regValidate = require("../utilities/account-validation");
 const router = express.Router();
@@ -13,6 +14,7 @@ const router = express.Router();
 router.get("/", utils.checkLoginStatus, utils.handleErrors(renderAcctMgmt));
 
 router.get("/login", utils.handleErrors(renderLogin));
+router.get("/logout", utils.handleErrors(accountLogout));
 
 router.get("/register", utils.handleErrors(renderSignUp));
 
@@ -30,4 +32,3 @@ router.post(
   utils.handleErrors(registerAccount)
 );
 module.exports = router;
-

@@ -7,9 +7,18 @@ require("dotenv").config();
 
 // Render login view
 async function renderLogin(_, res) {
+  if (res.locals.loggedIn) {
+    if (
+      res.locals.accountData &&
+      res.locals.accountData.account_type !== "Client"
+    ) {
+      return res.redirect("/account/");
+    }
+    return res.redirect("/");
+  }
   const nav = await utils.buildNav();
 
-  res.render("account/login", { title: "Login", nav, errors: null });
+  return res.render("account/login", { title: "Login", nav, errors: null });
 }
 
 // Render sign-up view
@@ -128,6 +137,7 @@ async function accountLogin(req, res) {
             httpOnly: true,
             maxAge: 3600 * 1000,
           });
+          break;
         default:
           res.cookie("jwt", accessToken, {
             httpOnly: true,
@@ -135,7 +145,17 @@ async function accountLogin(req, res) {
             secure: true,
           });
       }
-      return res.redirect("/account/");
+      // Redirect based on account type to avoid hitting the
+      // `/account/` route for regular clients (which would set an
+      // authorization flash and bounce back to login).
+      if (
+        accountData &&
+        accountData.account_type &&
+        accountData.account_type !== "Client"
+      ) {
+        return res.redirect("/account/");
+      }
+      return res.redirect("/");
     } else {
       req.flash(
         "error",
@@ -147,10 +167,17 @@ async function accountLogin(req, res) {
         errors: null,
         account_email,
       });
+      return;
     }
   } catch (err) {
     throw new Error("Access Forbidden", err.message);
   }
+}
+
+async function accountLogout(_, res) {
+  res.clearCookie("jwt");
+  res.locals.loggedIn = false;
+  res.redirect("/");
 }
 
 module.exports = {
@@ -159,4 +186,5 @@ module.exports = {
   registerAccount,
   accountLogin,
   renderAcctMgmt,
+  accountLogout,
 };

@@ -17,7 +17,7 @@ const {
 } = require("../controllers/invController");
 const invValidation = require("../utilities/inventory-validation");
 
-router.get("/", utils.handleErrors(renderInvMgmt));
+router.get("/", utils.checkLoginStatus, utils.checkLoginAuthZ, utils.handleErrors(renderInvMgmt));
 
 router.get("/type/:classificationId", utils.handleErrors(renderByClassId));
 
